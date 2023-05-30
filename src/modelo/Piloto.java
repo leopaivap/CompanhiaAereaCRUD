@@ -1,14 +1,15 @@
 package modelo;
 
+import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Objects;
 
-public class Piloto extends Pessoa {
-    private int codPiloto;
+public class Piloto extends Pessoa implements Serializable{
+    private Integer codPiloto;
     private double salario;
     private Calendar dataAdmissao;
 
-    public int getCodPiloto() {
+    public Integer getCodPiloto() {
         return codPiloto;
     }
 

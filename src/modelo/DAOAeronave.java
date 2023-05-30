@@ -1,14 +1,25 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package modelo;
 
-/**
- *
- * @author 02210412650
- */
+import java.util.List;
+
+
 public class DAOAeronave {
+     public List<Aeronave> getLista(){
+        return Dados.listaAeronave;
+    }
     
+    public boolean salvar(Aeronave obj){
+        if(obj.getCodAeronave() == null){
+            Integer codigo = Dados.listaAeronave.size() + 1;
+            obj.setCodAeronave(codigo);
+            Dados.listaAeronave.add(obj);
+        }
+        return true;
+    }
+    
+    public boolean remover(Aeronave obj){
+        Dados.listaAeronave.remove(obj);
+        return true;
+    }
 }
