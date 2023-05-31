@@ -246,7 +246,7 @@
                 <Property name="editable" type="boolean" value="false"/>
               </Properties>
               <BindingProperties>
-                <BindingProperty name="text" source="tblAeroporto" sourcePath="${selectedElement.codigoCidade}" target="txtCodigo" targetPath="text" updateStrategy="0" immediately="false">
+                <BindingProperty name="text" source="tblAeroporto" sourcePath="${selectedElement.codAeroporto}" target="txtCodigo" targetPath="text" updateStrategy="0" immediately="false">
                   <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
                 </BindingProperty>
               </BindingProperties>
@@ -309,7 +309,7 @@
             </Container>
             <Component class="javax.swing.JTextField" name="txtNomeAeroporto">
               <BindingProperties>
-                <BindingProperty name="text" source="tblAeroporto" sourcePath="${selectedElement.nomeCidade}" target="txtNomeAeroporto" targetPath="text" updateStrategy="0" immediately="false">
+                <BindingProperty name="text" source="tblAeroporto" sourcePath="${selectedElement.nomeAeroporto}" target="txtNomeAeroporto" targetPath="text" updateStrategy="0" immediately="false">
                   <BindingParameter name="javax.swing.binding.ParameterKeys.TEXT_CHANGE_STRATEGY" value="javax.swing.binding.TextChangeStrategy.ON_TYPE"/>
                 </BindingProperty>
               </BindingProperties>

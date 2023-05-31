@@ -5,8 +5,11 @@ import java.util.List;
 
 
 public class DAOAeronave {
+        
      public List<Aeronave> getLista(){
+         System.out.println(Dados.listaAeronave);
         return Dados.listaAeronave;
+        
     }
     
     public boolean salvar(Aeronave obj){

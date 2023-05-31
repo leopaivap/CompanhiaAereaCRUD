@@ -2,29 +2,29 @@ package visual;
 
 import  java.util.ArrayList;
 import javax.swing.JOptionPane;
-import modelo.Aeronave;
-import modelo.DAOAeronave;
+import modelo.Piloto;
+import modelo.DAOPiloto;
 
-public class FormAeronave extends javax.swing.JDialog {
-    DAOAeronave objDAOAeronave = new DAOAeronave();
+public class FormPiloto extends javax.swing.JDialog {
+    DAOPiloto objDAOPiloto = new DAOPiloto();
 
-    /** Creates new form FormAeronave */
-    public FormAeronave(java.awt.Frame parent, boolean modal) {
+    /** Creates new form FormPiloto */
+    public FormPiloto(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         atualizaTabela();
         trataEdicao(false);
-        listAeronave.clear();
-        listAeronave.addAll(objDAOAeronave.getLista());
+        listPiloto.clear();
+        listPiloto.addAll(objDAOPiloto.getLista());
     }
     
     public void atualizaTabela(){
-        listAeronave.clear();
-        listAeronave.addAll(objDAOAeronave.getLista());
-        int linha = listAeronave.size()-1;
+        listPiloto.clear();
+        listPiloto.addAll(objDAOPiloto.getLista());
+        int linha = listPiloto.size()-1;
         if(linha>=0){
-            tblAeronave.setRowSelectionInterval(linha, linha);
-      tblAeronave.scrollRectToVisible(tblAeronave.getCellRect(linha,linha,true));
+            tblPiloto.setRowSelectionInterval(linha, linha);
+            tblPiloto.scrollRectToVisible(tblPiloto.getCellRect(linha,linha,true));
         }
     }
     
@@ -33,12 +33,16 @@ public class FormAeronave extends javax.swing.JDialog {
         btnCancelar.setEnabled(editando);
         btnSalvar.setEnabled(editando);
         btnEditar.setEnabled(!editando);
-        int linha = listAeronave.size()-1;
+        int linha = listPiloto.size()-1;
         if(linha<0){
             btnEditar.setEnabled(false);
             btnExcluir.setEnabled(false);
             txtCodigo.setText("");
-            txtAeronave.setText("");
+            txtNomePiloto.setText("");
+            txtDataNasc.setText("");
+            txtDataAdmissao.setText("");
+            txtSalario.setText("");
+            txtCpf.setText("");
         }else{
             btnExcluir.setEnabled(!editando);
         }
@@ -48,35 +52,43 @@ public class FormAeronave extends javax.swing.JDialog {
         btnProximo.setEnabled(!editando);
         btnAnterior.setEnabled(!editando);
         btnUltimo.setEnabled(!editando);
-        txtAeronave.setEnabled(editando);
-        txtAutonomia.setEnabled(editando);
-        txtAssentos.setEnabled(editando);
-        txtCapacidadeCarga.setEnabled(editando);
-        tblAeronave.setEnabled(editando);
+        txtNomePiloto.setEnabled(editando);
+        txtCpf.setEnabled(editando);
+        txtDataAdmissao.setEnabled(editando);
+        txtDataNasc.setEnabled(editando);
+        txtSalario.setEnabled(editando);
+        tblPiloto.setEnabled(editando);
         
     }
     
     public boolean validaCampos(){
-        if(!(txtAeronave.getText().length()>0)){
-            JOptionPane.showMessageDialog(null, "Informe o nome da Aeronave");
-            txtAeronave.requestFocus();
+        if(!(txtNomePiloto.getText().length()>0)){
+            JOptionPane.showMessageDialog(null, "Informe o nome da Piloto");
+            txtNomePiloto.requestFocus();
             return false;
         }
-        if(!(txtAssentos.getText().length()>0)){
-            JOptionPane.showMessageDialog(null, "Informe a quantidade de assentos!");
-            txtAssentos.requestFocus();
+        if(!(txtCpf.getText().length()>0)){
+            JOptionPane.showMessageDialog(null, "Informe o Cpf!");
+            txtCpf.requestFocus();
             return false;
         }
-        if(!(txtAutonomia.getText().length()>0)){
-            JOptionPane.showMessageDialog(null, "Informe a autonomia!");
-            txtAutonomia.requestFocus();
+        if(!(txtDataAdmissao.getText().length()>0)){
+            JOptionPane.showMessageDialog(null, "Informe a Data de Admissão!");
+            txtDataAdmissao.requestFocus();
             return false;
         }
-        if(!(txtCapacidadeCarga.getText().length()>0)){
-            JOptionPane.showMessageDialog(null, "Informe a capacidade de carga!");
-            txtCapacidadeCarga.requestFocus();
+        if(!(txtSalario.getText().length()>0)){
+            JOptionPane.showMessageDialog(null, "Informe o Salario!");
+            txtSalario.requestFocus();
             return false;
         }
+        if(!(txtDataNasc.getText().length()>0)){
+            JOptionPane.showMessageDialog(null, "Informe a Data de Nascimento!");
+            txtDataNasc.requestFocus();
+            return false;
+        }
+        
+        
        
         return true;
     }
@@ -91,7 +103,9 @@ public class FormAeronave extends javax.swing.JDialog {
     private void initComponents() {
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
-        listAeronave = org.jdesktop.observablecollections.ObservableCollections.observableList(new ArrayList<Aeronave>())  ;
+        listPiloto = org.jdesktop.observablecollections.ObservableCollections.observableList(new ArrayList<Piloto>())
+        ;
+        converteData = new modelo.ConverteData();
         painelNavegacao = new javax.swing.JPanel();
         btnPrimeiro = new javax.swing.JButton();
         btnAnterior = new javax.swing.JButton();
@@ -101,7 +115,7 @@ public class FormAeronave extends javax.swing.JDialog {
         painelAbas = new javax.swing.JTabbedPane();
         abaListagem = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tblAeronave = new javax.swing.JTable();
+        tblPiloto = new javax.swing.JTable();
         abaDados = new javax.swing.JPanel();
         painelAcoes = new javax.swing.JPanel();
         btnNovo = new javax.swing.JButton();
@@ -112,13 +126,17 @@ public class FormAeronave extends javax.swing.JDialog {
         jLabel13 = new javax.swing.JLabel();
         txtCodigo = new javax.swing.JTextField();
         jLabel15 = new javax.swing.JLabel();
-        txtAeronave = new javax.swing.JTextField();
         jLabel16 = new javax.swing.JLabel();
-        txtAssentos = new javax.swing.JTextField();
-        txtAutonomia = new javax.swing.JTextField();
         jLabel17 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
-        txtCapacidadeCarga = new javax.swing.JTextField();
+        jLabel18 = new javax.swing.JLabel();
+        javax.swing.text.MaskFormatter maskData2 = null;  try{  maskData2 = new javax.swing.text.MaskFormatter("##/##/####");  maskData2.setPlaceholderCharacter('_');  } catch(Exception e){  System.out.println("Erro na mascara " + e);  }
+        txtDataAdmissao = new javax.swing.JFormattedTextField(maskData2);
+        javax.swing.text.MaskFormatter maskData = null;  try{  maskData = new javax.swing.text.MaskFormatter("##/##/####");  maskData.setPlaceholderCharacter('_');  } catch(Exception e){  System.out.println("Erro na mascara " + e);  }
+        txtDataNasc = new javax.swing.JFormattedTextField(maskData);
+        txtNomePiloto = new javax.swing.JTextField();
+        txtSalario = new javax.swing.JTextField();
+        txtCpf = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Cadastro de Cidades");
@@ -168,32 +186,30 @@ public class FormAeronave extends javax.swing.JDialog {
 
         abaListagem.setLayout(new java.awt.BorderLayout());
 
-        org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, listAeronave, tblAeronave);
-        org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codAeronave}"));
-        columnBinding.setColumnName("Código");
+        org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, listPiloto, tblPiloto);
+        org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codPiloto}"));
+        columnBinding.setColumnName("Cod Piloto");
         columnBinding.setColumnClass(Integer.class);
-        columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${nomeAviao}"));
-        columnBinding.setColumnName("Aeronave");
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${nome}"));
+        columnBinding.setColumnName("Nome");
         columnBinding.setColumnClass(String.class);
-        columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${qtdAssento}"));
-        columnBinding.setColumnName("Quantidade Assento");
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${cpf}"));
+        columnBinding.setColumnName("Cpf");
         columnBinding.setColumnClass(Integer.class);
-        columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${autonomia}"));
-        columnBinding.setColumnName("Autonomia (KM)");
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${salario}"));
+        columnBinding.setColumnName("Salario");
         columnBinding.setColumnClass(Double.class);
-        columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${capacidadeCarga}"));
-        columnBinding.setColumnName("Capacidade Carga (KG)");
-        columnBinding.setColumnClass(Double.class);
-        columnBinding.setEditable(false);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${admissaoFormatado}"));
+        columnBinding.setColumnName("Admissao Formatado");
+        columnBinding.setColumnClass(String.class);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${nascimentoFormatado}"));
+        columnBinding.setColumnName("Nascimento Formatado");
+        columnBinding.setColumnClass(String.class);
         bindingGroup.addBinding(jTableBinding);
         jTableBinding.bind();
-        jScrollPane1.setViewportView(tblAeronave);
+        jScrollPane1.setViewportView(tblPiloto);
 
-        abaListagem.add(jScrollPane1, java.awt.BorderLayout.CENTER);
+        abaListagem.add(jScrollPane1, java.awt.BorderLayout.PAGE_START);
 
         painelAbas.addTab("Listagem", abaListagem);
 
@@ -244,52 +260,35 @@ public class FormAeronave extends javax.swing.JDialog {
 
         txtCodigo.setEditable(false);
 
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, tblAeronave, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.codAeronave}"), txtCodigo, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, tblPiloto, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.codAeronave}"), txtCodigo, org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
-        jLabel15.setText("Aeronave:");
+        jLabel15.setText("Piloto:");
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, tblAeronave, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.nomeAviao}"), txtAeronave, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        jLabel16.setText("CPF:");
+
+        jLabel17.setText("Data Nascimento:");
+
+        jLabel14.setText("Salário:");
+
+        jLabel18.setText("Data Admissão:");
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, tblPiloto, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.dataAdmissao}"), txtDataAdmissao, org.jdesktop.beansbinding.BeanProperty.create("value"));
+        binding.setConverter(converteData);
         bindingGroup.addBinding(binding);
 
-        txtAeronave.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtAeronaveActionPerformed(evt);
-            }
-        });
-
-        jLabel16.setText("Nº Assentos:");
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, tblAeronave, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.qtdAssento}"), txtAssentos, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, tblPiloto, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.dataNascimento}"), txtDataNasc, org.jdesktop.beansbinding.BeanProperty.create("value"));
+        binding.setConverter(converteData);
         bindingGroup.addBinding(binding);
 
-        txtAssentos.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtAssentosActionPerformed(evt);
-            }
-        });
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, tblAeronave, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.autonomia}"), txtAutonomia, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, tblPiloto, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.nome}"), txtNomePiloto, org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
-        txtAutonomia.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtAutonomiaActionPerformed(evt);
-            }
-        });
-
-        jLabel17.setText("Autonomia(KM):");
-
-        jLabel14.setText("Capacidade(KG):");
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, tblAeronave, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.capacidadeCarga}"), txtCapacidadeCarga, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, tblPiloto, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.salario}"), txtSalario, org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
-        txtCapacidadeCarga.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtCapacidadeCargaActionPerformed(evt);
-            }
-        });
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, tblPiloto, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.cpf}"), txtCpf, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
 
         javax.swing.GroupLayout abaDadosLayout = new javax.swing.GroupLayout(abaDados);
         abaDados.setLayout(abaDadosLayout);
@@ -308,20 +307,30 @@ public class FormAeronave extends javax.swing.JDialog {
                             .addComponent(jLabel15))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(abaDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtAeronave, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, abaDadosLayout.createSequentialGroup()
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, abaDadosLayout.createSequentialGroup()
+                                .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(162, 162, 162))
+                            .addComponent(txtNomePiloto, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(abaDadosLayout.createSequentialGroup()
                         .addComponent(jLabel16)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(txtAssentos, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(txtCpf, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(abaDadosLayout.createSequentialGroup()
                         .addGroup(abaDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel17)
                             .addComponent(jLabel14))
-                        .addGap(36, 36, 36)
                         .addGroup(abaDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtCapacidadeCarga, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtAutonomia, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addGroup(abaDadosLayout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(txtDataNasc, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(abaDadosLayout.createSequentialGroup()
+                                .addGap(45, 45, 45)
+                                .addComponent(txtSalario, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))))
+                    .addGroup(abaDadosLayout.createSequentialGroup()
+                        .addComponent(jLabel18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(txtDataAdmissao, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         abaDadosLayout.setVerticalGroup(
@@ -333,30 +342,27 @@ public class FormAeronave extends javax.swing.JDialog {
                 .addGroup(abaDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel13)
                     .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGroup(abaDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(abaDadosLayout.createSequentialGroup()
-                        .addGap(26, 26, 26)
-                        .addComponent(jLabel15))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, abaDadosLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtAeronave, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(22, 22, 22)
+                .addGap(23, 23, 23)
+                .addGroup(abaDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel15)
+                    .addComponent(txtNomePiloto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(19, 19, 19)
                 .addGroup(abaDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel16)
-                    .addComponent(txtAssentos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(abaDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(abaDadosLayout.createSequentialGroup()
-                        .addGap(8, 8, 8)
-                        .addComponent(jLabel17))
-                    .addComponent(txtAutonomia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(abaDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(abaDadosLayout.createSequentialGroup()
-                        .addGap(8, 8, 8)
-                        .addComponent(jLabel14))
-                    .addComponent(txtCapacidadeCarga, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(79, Short.MAX_VALUE))
+                    .addComponent(txtCpf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(24, 24, 24)
+                .addGroup(abaDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel17)
+                    .addComponent(txtDataNasc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(23, 23, 23)
+                .addGroup(abaDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel14)
+                    .addComponent(txtSalario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(21, 21, 21)
+                .addGroup(abaDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel18)
+                    .addComponent(txtDataAdmissao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(100, Short.MAX_VALUE))
         );
 
         painelAbas.addTab("Dados", abaDados);
@@ -373,7 +379,7 @@ public class FormAeronave extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(painelNavegacao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(painelAbas, javax.swing.GroupLayout.PREFERRED_SIZE, 391, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(painelAbas, javax.swing.GroupLayout.PREFERRED_SIZE, 444, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         bindingGroup.bind();
@@ -383,8 +389,8 @@ public class FormAeronave extends javax.swing.JDialog {
 
     private void btnPrimeiroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrimeiroActionPerformed
         // TODO add your handling code here:
-        tblAeronave.setRowSelectionInterval(0, 0);
-        tblAeronave.scrollRectToVisible(tblAeronave.getCellRect(0, 0, true));
+        tblPiloto.setRowSelectionInterval(0, 0);
+        tblPiloto.scrollRectToVisible(tblPiloto.getCellRect(0, 0, true));
     }//GEN-LAST:event_btnPrimeiroActionPerformed
 
     private void btnFecharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFecharActionPerformed
@@ -396,19 +402,19 @@ public class FormAeronave extends javax.swing.JDialog {
     private void btnNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovoActionPerformed
         // TODO add your handling code here:
         trataEdicao(true);
-        listAeronave.add((Aeronave)new Aeronave());// cria um objeto e uma linha na tabela
-        int linha = listAeronave.size()-1;
-        tblAeronave.setRowSelectionInterval(linha, linha);// seleciona a linha
-        txtAeronave.requestFocus();// caixa texto nome recebe o foco
+        listPiloto.add((Piloto)new Piloto());// cria um objeto e uma linha na tabela
+        int linha = listPiloto.size()-1;
+        tblPiloto.setRowSelectionInterval(linha, linha);// seleciona a linha
+        txtNomePiloto.requestFocus();// caixa texto nome recebe o foco
     }//GEN-LAST:event_btnNovoActionPerformed
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
         // TODO add your handling code here:
         if(validaCampos()){
         trataEdicao(false);
-        int linhaSelecionada = tblAeronave.getSelectedRow();
-        Aeronave objAeronave = listAeronave.get(linhaSelecionada);
-        objDAOAeronave.salvar(objAeronave);
+        int linhaSelecionada = tblPiloto.getSelectedRow();
+        Piloto objPiloto = listPiloto.get(linhaSelecionada);
+        objDAOPiloto.salvar(objPiloto);
         atualizaTabela();
  
         }
@@ -418,7 +424,7 @@ public class FormAeronave extends javax.swing.JDialog {
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
         // TODO add your handling code here:
         trataEdicao(true);
-        txtAeronave.requestFocus();
+        txtNomePiloto.requestFocus();
     }//GEN-LAST:event_btnEditarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
@@ -434,9 +440,9 @@ public class FormAeronave extends javax.swing.JDialog {
         "Pergunta",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE, 
         null,new String[]{"Sim","Não"},"Sim");
         if(opcao==0){
-          int linhaSelecionada = tblAeronave.getSelectedRow();
-          Aeronave objAeronave = listAeronave.get(linhaSelecionada);
-          objDAOAeronave.remover(objAeronave);
+          int linhaSelecionada = tblPiloto.getSelectedRow();
+          Piloto objPiloto = listPiloto.get(linhaSelecionada);
+          objDAOPiloto.remover(objPiloto);
           atualizaTabela();
           trataEdicao(false);
         }
@@ -444,48 +450,32 @@ public class FormAeronave extends javax.swing.JDialog {
 
     private void btnAnteriorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnteriorActionPerformed
         // TODO add your handling code here:
-        int linha = tblAeronave.getSelectedRow();
+        int linha = tblPiloto.getSelectedRow();
         if((linha-1)>=0){
             linha--;
         }
-        tblAeronave.setRowSelectionInterval(linha, linha);
-        tblAeronave.scrollRectToVisible(tblAeronave.getCellRect(linha, 0, true));
+        tblPiloto.setRowSelectionInterval(linha, linha);
+        tblPiloto.scrollRectToVisible(tblPiloto.getCellRect(linha, 0, true));
         
     }//GEN-LAST:event_btnAnteriorActionPerformed
 
     private void btnProximoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProximoActionPerformed
         // TODO add your handling code here:
-       int linha = tblAeronave.getSelectedRow();
-        if((linha+1)<=(tblAeronave.getRowCount())-1){
+       int linha = tblPiloto.getSelectedRow();
+        if((linha+1)<=(tblPiloto.getRowCount())-1){
             linha++;
         }
-        tblAeronave.setRowSelectionInterval(linha, linha);
-        tblAeronave.scrollRectToVisible(tblAeronave.getCellRect(linha, 0, true));
+        tblPiloto.setRowSelectionInterval(linha, linha);
+        tblPiloto.scrollRectToVisible(tblPiloto.getCellRect(linha, 0, true));
     }//GEN-LAST:event_btnProximoActionPerformed
 
     private void btnUltimoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUltimoActionPerformed
         // TODO add your handling code here:
-        int linha = tblAeronave.getRowCount()-1;
-        tblAeronave.setRowSelectionInterval(linha, linha);
-        tblAeronave.scrollRectToVisible(tblAeronave.getCellRect(linha, 0, true));
+        int linha = tblPiloto.getRowCount()-1;
+        tblPiloto.setRowSelectionInterval(linha, linha);
+        tblPiloto.scrollRectToVisible(tblPiloto.getCellRect(linha, 0, true));
   
     }//GEN-LAST:event_btnUltimoActionPerformed
-
-    private void txtAeronaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtAeronaveActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtAeronaveActionPerformed
-
-    private void txtAssentosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtAssentosActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtAssentosActionPerformed
-
-    private void txtAutonomiaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtAutonomiaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtAutonomiaActionPerformed
-
-    private void txtCapacidadeCargaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCapacidadeCargaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtCapacidadeCargaActionPerformed
 
     
     /**
@@ -505,14 +495,22 @@ public class FormAeronave extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FormAeronave.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FormPiloto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FormAeronave.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FormPiloto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FormAeronave.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FormPiloto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FormAeronave.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FormPiloto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -525,7 +523,7 @@ public class FormAeronave extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                FormAeronave dialog = new FormAeronave(new javax.swing.JFrame(), true);
+                FormPiloto dialog = new FormPiloto(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -550,22 +548,25 @@ public class FormAeronave extends javax.swing.JDialog {
     private javax.swing.JButton btnProximo;
     private javax.swing.JButton btnSalvar;
     private javax.swing.JButton btnUltimo;
+    private modelo.ConverteData converteData;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
     private javax.swing.JScrollPane jScrollPane1;
-    private java.util.List<Aeronave> listAeronave;
+    private java.util.List<Piloto> listPiloto;
     private javax.swing.JTabbedPane painelAbas;
     private javax.swing.JPanel painelAcoes;
     private javax.swing.JPanel painelNavegacao;
-    private javax.swing.JTable tblAeronave;
-    private javax.swing.JTextField txtAeronave;
-    private javax.swing.JTextField txtAssentos;
-    private javax.swing.JTextField txtAutonomia;
-    private javax.swing.JTextField txtCapacidadeCarga;
+    private javax.swing.JTable tblPiloto;
     private javax.swing.JTextField txtCodigo;
+    private javax.swing.JTextField txtCpf;
+    private javax.swing.JFormattedTextField txtDataAdmissao;
+    private javax.swing.JFormattedTextField txtDataNasc;
+    private javax.swing.JTextField txtNomePiloto;
+    private javax.swing.JTextField txtSalario;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 

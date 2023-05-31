@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package visual;
 
 import  java.util.ArrayList;
@@ -11,10 +5,6 @@ import javax.swing.JOptionPane;
 import modelo.Aeroporto;
 import modelo.DAOAeroporto;
 
-/**
- *
- * @author tulio
- */
 public class FormAeroporto extends javax.swing.JDialog {
     DAOAeroporto objDAOAeroporto = new DAOAeroporto();
 
@@ -62,13 +52,14 @@ public class FormAeroporto extends javax.swing.JDialog {
     
     public boolean validaCampos(){
         if(!(txtNomeAeroporto.getText().length()>0)){
-            JOptionPane.showMessageDialog(null, "Informe o nome da Aeroporto");
+            JOptionPane.showMessageDialog(null, "Informe o nome da Aeroporto!");
             txtNomeAeroporto.requestFocus();
             return false;
         }
        
         return true;
     }
+    
 
     /** This method is called from within the constructor to
      * initialize the form.
@@ -174,7 +165,7 @@ public class FormAeroporto extends javax.swing.JDialog {
 
         txtCodigo.setEditable(false);
 
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, tblAeroporto, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.codigoCidade}"), txtCodigo, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, tblAeroporto, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.codAeroporto}"), txtCodigo, org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
         painelAcoes.setBorder(javax.swing.BorderFactory.createTitledBorder("Ações"));
@@ -220,7 +211,7 @@ public class FormAeroporto extends javax.swing.JDialog {
         });
         painelAcoes.add(btnExcluir);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, tblAeroporto, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.nomeCidade}"), txtNomeAeroporto, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, tblAeroporto, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.nomeAeroporto}"), txtNomeAeroporto, org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
         txtNomeAeroporto.addActionListener(new java.awt.event.ActionListener() {
@@ -338,6 +329,7 @@ public class FormAeroporto extends javax.swing.JDialog {
         // TODO add your handling code here:
         trataEdicao(false);
         atualizaTabela();
+
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed

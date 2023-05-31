@@ -21,6 +21,17 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Aeronave"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="menuAeronaveActionPerformed"/>
+              </Events>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="menuPiloto">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Piloto"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="menuPilotoActionPerformed"/>
+              </Events>
             </MenuItem>
           </SubComponents>
         </Menu>

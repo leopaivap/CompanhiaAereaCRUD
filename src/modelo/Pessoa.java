@@ -1,11 +1,13 @@
 package modelo;
 
+import java.beans.Transient;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Objects;
 
 public class Pessoa {
-     private int cpf;
-    private String nome, email, telefone;
+    private int cpf;
+    private String nome;
     private Calendar dataNascimento;
 
     public int getCpf() {
@@ -24,26 +26,18 @@ public class Pessoa {
         this.nome = nome;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getTelefone() {
-        return telefone;
-    }
-
-    public void setTelefone(String telefone) {
-        this.telefone = telefone;
+    public void setDataNascimento(Calendar dataNascimento) {
+        this.dataNascimento = dataNascimento;
     }
 
     public Calendar getDataNascimento() {
         return dataNascimento;
     }
 
-    
+   @Transient
+    public String getNascimentoFormatado(){
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        return sdf.format(dataNascimento.getTime());
+    }
 
 }

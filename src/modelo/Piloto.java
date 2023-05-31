@@ -1,6 +1,8 @@
 package modelo;
 
+import java.beans.Transient;
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Objects;
 
@@ -28,8 +30,12 @@ public class Piloto extends Pessoa implements Serializable{
     public void setSalario(double salario) {
         this.salario = salario;
     }
+
+    public void setDataAdmissao(Calendar dataAdmissao) {
+        this.dataAdmissao = dataAdmissao;
+    }
     
-     @Override
+    @Override
     public int hashCode() {
         int hash = 5;
         hash = 67 * hash + Objects.hashCode(this.codPiloto);
@@ -53,4 +59,11 @@ public class Piloto extends Pessoa implements Serializable{
         }
         return true;
     }
+    
+    @Transient
+    public String getAdmissaoFormatado(){
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        return sdf.format(dataAdmissao.getTime());
+    }
+    
 }

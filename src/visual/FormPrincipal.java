@@ -23,6 +23,7 @@ public class FormPrincipal extends javax.swing.JFrame {
         menuCadastro = new javax.swing.JMenu();
         menuAeroporto = new javax.swing.JMenuItem();
         menuAeronave = new javax.swing.JMenuItem();
+        menuPiloto = new javax.swing.JMenuItem();
         menuAjuda = new javax.swing.JMenu();
         menuSobre = new javax.swing.JMenuItem();
 
@@ -40,7 +41,20 @@ public class FormPrincipal extends javax.swing.JFrame {
         menuCadastro.add(menuAeroporto);
 
         menuAeronave.setText("Aeronave");
+        menuAeronave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuAeronaveActionPerformed(evt);
+            }
+        });
         menuCadastro.add(menuAeronave);
+
+        menuPiloto.setText("Piloto");
+        menuPiloto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuPilotoActionPerformed(evt);
+            }
+        });
+        menuCadastro.add(menuPiloto);
 
         barraMenu.add(menuCadastro);
 
@@ -89,6 +103,30 @@ public class FormPrincipal extends javax.swing.JFrame {
        JOptionPane.showMessageDialog(null,"Sistema de Cadastro\nDireitos reservado\nVersão 1.0");
     }//GEN-LAST:event_menuSobreActionPerformed
 
+    private void menuAeronaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuAeronaveActionPerformed
+         // TODO add your handling code here:
+        FormAeronave form  = new FormAeronave(this,true);
+        //this: chama a partir deste form
+        // true: Modal: sobre o form principal e não deixa acessa-lo
+        form.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+        // não deixa fechar o form pelo x
+        form.setLocationRelativeTo(null); // centro
+        form.setResizable(false); // retira o botão maximizar
+        form.setVisible(true); //mostra o form
+    }//GEN-LAST:event_menuAeronaveActionPerformed
+
+    private void menuPilotoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuPilotoActionPerformed
+        // TODO add your handling code here:
+        FormPiloto form  = new FormPiloto(this,true);
+        //this: chama a partir deste form
+        // true: Modal: sobre o form principal e não deixa acessa-lo
+        form.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+        // não deixa fechar o form pelo x
+        form.setLocationRelativeTo(null); // centro
+        form.setResizable(false); // retira o botão maximizar
+        form.setVisible(true); //mostra o form
+    }//GEN-LAST:event_menuPilotoActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -134,6 +172,7 @@ public class FormPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem menuAeroporto;
     private javax.swing.JMenu menuAjuda;
     private javax.swing.JMenu menuCadastro;
+    private javax.swing.JMenuItem menuPiloto;
     private javax.swing.JMenuItem menuSobre;
     // End of variables declaration//GEN-END:variables
 }
