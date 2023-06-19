@@ -5,7 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Objects;
 
-public class Pessoa {
+abstract public class Pessoa {
     private int cpf;
     private String nome;
     private Calendar dataNascimento;
