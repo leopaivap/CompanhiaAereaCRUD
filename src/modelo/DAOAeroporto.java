@@ -18,7 +18,7 @@ public class DAOAeroporto {
             while (rs.next()) {
                 Aeroporto objAeroporto = new Aeroporto();
                 objAeroporto.setCodAeroporto(rs.getInt("codAeroporto"));
-                objAeroporto.setNomeAeroporto(rs.getString("nome"));
+                objAeroporto.setNomeAeroporto(rs.getString("nomeAeroporto"));
                 listaAeroporto.add(objAeroporto);
             }
         } catch (SQLException ex) {
@@ -28,7 +28,7 @@ public class DAOAeroporto {
     }
 
     public boolean incluir(Aeroporto obj) {
-        String sql = "insert into aeroporto (nome) values(?)";
+        String sql = "insert into aeroporto (nomeAeroporto) values(?)";
         try {
             PreparedStatement pst = Conexao.getPreparedStatement(sql);
             pst.setString(1, obj.getNomeAeroporto());
@@ -46,7 +46,7 @@ public class DAOAeroporto {
     }
 
     public boolean alterar(Aeroporto obj) {
-        String sql = "update aeroporto set nome = ? where codAeroporto = ?";
+        String sql = "update aeroporto set nomeAeroporto = ? where codAeroporto = ?";
         try {
             PreparedStatement pst = Conexao.getPreparedStatement(sql);
             pst.setString(1, obj.getNomeAeroporto());
@@ -101,7 +101,7 @@ public class DAOAeroporto {
             ResultSet rs = pst.executeQuery();
             while (rs.next()) {
                 obj.setCodAeroporto(rs.getInt("codAeroporto"));
-                obj.setNomeAeroporto(rs.getString("nome"));
+                obj.setNomeAeroporto(rs.getString("nomeAeroporto"));
                 return obj;
             }
         } catch (SQLException e) {

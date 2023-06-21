@@ -5,8 +5,6 @@ import java.util.Objects;
 
 public class Passageiro extends Pessoa implements Serializable{
     private Integer codPassageiro;
-    private double pesoBagagem;
-    private boolean elegivel;
 
     public Integer getCodPassageiro() {
         return codPassageiro;
@@ -14,22 +12,6 @@ public class Passageiro extends Pessoa implements Serializable{
 
     public void setCodPassageiro(Integer codPassageiro) {
         this.codPassageiro = codPassageiro;
-    }
-
-    public double getPesoBagagem() {
-        return pesoBagagem;
-    }
-
-    public void setPesoBagagem(double pesoBagagem) {
-        this.pesoBagagem = pesoBagagem;
-    }
-
-    public boolean isElegivel() {
-        return elegivel;
-    }
-
-    public void setElegivel(boolean elegivel) {
-        this.elegivel = elegivel;
     }
     
      @Override

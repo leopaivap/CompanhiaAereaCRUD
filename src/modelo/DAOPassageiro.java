@@ -20,16 +20,13 @@ public class DAOPassageiro {
             while (rs.next()) {
                 Passageiro objPassageiro = new Passageiro();
                 objPassageiro.setCodPassageiro(rs.getInt("codPassageiro"));
-                objPassageiro.setNome(rs.getString("nome"));
+                objPassageiro.setNome(rs.getString("nomePassageiro"));
                 objPassageiro.setCpf(rs.getInt("cpf"));
                 
                 java.sql.Date dt = rs.getDate("dataNascimento");
                 Calendar c = Calendar.getInstance();
                 c.setTime(dt);
-                objPassageiro.setDataNascimento(c);
-                
-                objPassageiro.setPesoBagagem(rs.getDouble("pesoBagagem"));
-                objPassageiro.setElegivel(rs.getBoolean("elegivel"));
+                objPassageiro.setDataNascimento(c); 
                 
                 listaPassageiro.add(objPassageiro);
             }
@@ -40,14 +37,12 @@ public class DAOPassageiro {
     }
 
     public boolean incluir(Passageiro obj) {
-        String sql = "insert into passageiro (nome, cpf, dataNascimento, pesoBagagem, elegivel) values(?, ?, ?, ?, ?)";
+        String sql = "insert into passageiro (nomePassageiro, cpf, dataNascimento) values(?, ?, ?)";
         try {
             PreparedStatement pst = Conexao.getPreparedStatement(sql);
             pst.setString(1, obj.getNome());
             pst.setInt(2, obj.getCpf());
             pst.setDate(3, new java.sql.Date(obj.getDataNascimento().getTimeInMillis()));
-            pst.setDouble(4, obj.getPesoBagagem());
-            pst.setBoolean(5, obj.isElegivel());
             if (pst.executeUpdate() > 0) {
                 JOptionPane.showMessageDialog(null, "Passageiro incluido");
                 return true;
@@ -62,15 +57,13 @@ public class DAOPassageiro {
     }
 
     public boolean alterar(Passageiro obj) {
-        String sql = "update passageiro set nome = ?, cpf = ?, dataNascimento = ?, pesoBagagem = ?, elegivel = ? where codPassageiro = ?";
+        String sql = "update passageiro set nomePassageiro = ?, cpf = ?, dataNascimento = ? where codPassageiro = ?";
         try {
             PreparedStatement pst = Conexao.getPreparedStatement(sql);
             pst.setString(1, obj.getNome());
             pst.setInt(2, obj.getCpf());
-            pst.setDate(3, new java.sql.Date(obj.getDataNascimento().getTimeInMillis()));
-            pst.setDouble(4, obj.getPesoBagagem());
-            pst.setBoolean(5, obj.isElegivel());
-            pst.setInt(6, obj.getCodPassageiro());
+            pst.setDate(3, new java.sql.Date(obj.getDataNascimento().getTimeInMillis()));   
+            pst.setInt(5, obj.getCodPassageiro());
             if (pst.executeUpdate() > 0) {
                 JOptionPane.showMessageDialog(null, "Passageiro alterado");
                 return true;
@@ -121,7 +114,7 @@ public class DAOPassageiro {
             ResultSet rs = pst.executeQuery();
             while (rs.next()) {
                 obj.setCodPassageiro(rs.getInt("codPassageiro"));
-                obj.setNome(rs.getString("nome"));
+                obj.setNome(rs.getString("nomePassageiro"));
                 obj.setCpf(rs.getInt("cpf"));
                 
                 java.sql.Date dt = rs.getDate("dataNascimento");
@@ -129,8 +122,6 @@ public class DAOPassageiro {
                 c.setTime(dt);
                 obj.setDataNascimento(c);
                 
-                obj.setPesoBagagem(rs.getDouble("pesoBagagem"));
-                obj.setElegivel(rs.getBoolean("elegivel"));
                 return obj;
             }
         } catch (SQLException e) {

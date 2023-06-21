@@ -19,7 +19,7 @@ public class DAOPiloto {
             while (rs.next()) {
                 Piloto objPiloto = new Piloto();
                 objPiloto.setCodPiloto(rs.getInt("codPiloto"));
-                objPiloto.setNome(rs.getString("nome"));
+                objPiloto.setNome(rs.getString("nomePiloto"));
                 objPiloto.setCpf(rs.getInt("cpf"));
                 objPiloto.setSalario(rs.getDouble("salario"));
 
@@ -41,7 +41,7 @@ public class DAOPiloto {
     }
 
     public boolean incluir(Piloto obj) {
-        String sql = "insert into piloto (nome, cpf, salario, dataNascimento, dataAdmissao) values(?, ?, ?, ?)";
+        String sql = "insert into piloto (nomePiloto, cpf, salario, dataNascimento, dataAdmissao) values(?, ?, ?, ?, ?)";
         try {
             PreparedStatement pst = Conexao.getPreparedStatement(sql);
             pst.setString(1, obj.getNome());
@@ -64,7 +64,7 @@ public class DAOPiloto {
     }
 
     public boolean alterar(Piloto obj) {
-        String sql = "update piloto set nome = ?, cpf = ?, salario = ?, dataNascimento = ?, dataAdmissao = ? where codPiloto = ?";
+        String sql = "update piloto set nomePiloto = ?, cpf = ?, salario = ?, dataNascimento = ?, dataAdmissao = ? where codPiloto = ?";
         try {
             PreparedStatement pst = Conexao.getPreparedStatement(sql);
             pst.setString(1, obj.getNome());
@@ -123,7 +123,7 @@ public class DAOPiloto {
             ResultSet rs = pst.executeQuery();
             while (rs.next()) {
                 obj.setCodPiloto(rs.getInt("codPiloto"));
-                obj.setNome(rs.getString("nome"));
+                obj.setNome(rs.getString("nomePiloto"));
                 obj.setCpf(rs.getInt("cpf"));
                 obj.setSalario(rs.getDouble("salario"));
 

@@ -8,7 +8,7 @@ import java.sql.SQLException;
 public class Conexao {
 
     private static final String driver = "com.mysql.jdbc.Driver";
-    private static final String banco = "jdbc:mysql://localhost:3306/";
+    private static final String banco = "jdbc:mysql://localhost:3306/companhiaaerea";
     private static final String usuario = "root";
     private static final String senha = "";
 
