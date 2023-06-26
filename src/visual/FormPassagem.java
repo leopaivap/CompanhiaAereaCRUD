@@ -2,27 +2,38 @@ package visual;
 
 import  java.util.ArrayList;
 import javax.swing.JOptionPane;
-import modelo.Piloto;
-import modelo.DAOPiloto;
+import modelo.Passagem;
+import modelo.DAOPassagem;
+import modelo.Voo;
+import modelo.DAOVoo;
+import modelo.Passageiro;
+import modelo.DAOPassageiro;
 
-public class FormPiloto extends javax.swing.JDialog {
-    DAOPiloto objDAOPiloto = new DAOPiloto();
 
-    /** Creates new form FormPiloto */
-    public FormPiloto(java.awt.Frame parent, boolean modal) {
+public class FormPassagem extends javax.swing.JDialog {
+    DAOPassagem objDAOPassagem = new DAOPassagem();
+    DAOPassageiro objDAOPassageiro = new DAOPassageiro();
+    DAOVoo objDAOVoo = new DAOVoo();
+
+    /** Creates new form FormPassagem */
+    public FormPassagem(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         atualizaTabela();
         trataEdicao(false);
+        listPassageiro.clear();
+        listPassageiro.addAll(objDAOPassageiro.getLista());
+        listVoo.clear();
+        listVoo.addAll(objDAOVoo.getLista());
     }
     
     public void atualizaTabela(){
-        listPiloto.clear();
-        listPiloto.addAll(objDAOPiloto.getLista());
-        int linha = listPiloto.size()-1;
+        listPassagem.clear();
+        listPassagem.addAll(objDAOPassagem.getLista());
+        int linha = listPassagem.size()-1;
         if(linha>=0){
-            tblPiloto.setRowSelectionInterval(linha, linha);
-            tblPiloto.scrollRectToVisible(tblPiloto.getCellRect(linha,linha,true));
+            tblPassagem.setRowSelectionInterval(linha, linha);
+            tblPassagem.scrollRectToVisible(tblPassagem.getCellRect(linha,linha,true));
         }
     }
     
@@ -31,16 +42,14 @@ public class FormPiloto extends javax.swing.JDialog {
         btnCancelar.setEnabled(editando);
         btnSalvar.setEnabled(editando);
         btnEditar.setEnabled(!editando);
-        int linha = listPiloto.size()-1;
+        int linha = listPassagem.size()-1;
         if(linha<0){
             btnEditar.setEnabled(false);
             btnExcluir.setEnabled(false);
             txtCodigo.setText("");
-            txtNomePiloto.setText("");
-            txtDataNasc.setText("");
-            txtDataAdmissao.setText("");
-            txtSalario.setText("");
-            txtCpf.setText("");
+            txtNumeroPoltronas.setText("");
+            txtPesoBagagem.setText("");
+            txtValorPassagem .setText("");
         }else{
             btnExcluir.setEnabled(!editando);
         }
@@ -50,39 +59,38 @@ public class FormPiloto extends javax.swing.JDialog {
         btnProximo.setEnabled(!editando);
         btnAnterior.setEnabled(!editando);
         btnUltimo.setEnabled(!editando);
-        txtNomePiloto.setEnabled(editando);
-        txtCpf.setEnabled(editando);
-        txtDataAdmissao.setEnabled(editando);
-        txtDataNasc.setEnabled(editando);
-        txtSalario.setEnabled(editando);
-        tblPiloto.setEnabled(editando);
+        txtNumeroPoltronas.setEnabled(editando);
+        txtPesoBagagem.setEnabled(editando);
+        txtValorPassagem.setEnabled(editando);
+        tblPassagem.setEnabled(editando);
         
     }
     
     public boolean validaCampos(){
-        if(!(txtNomePiloto.getText().length()>0)){
-            JOptionPane.showMessageDialog(null, "Informe o nome da Piloto");
-            txtNomePiloto.requestFocus();
+        if(!( txtNumeroPoltronas.getText().length()>0)){
+            JOptionPane.showMessageDialog(null, "Informe o numero de poltronas!");
+             txtNumeroPoltronas.requestFocus();
             return false;
         }
-        if(!(txtCpf.getText().length()>0)){
-            JOptionPane.showMessageDialog(null, "Informe o Cpf!");
-            txtCpf.requestFocus();
+        if(!(txtPesoBagagem.getText().length()>0)){
+            JOptionPane.showMessageDialog(null, "Informe o peso da bagagem!");
+            txtPesoBagagem.requestFocus();
             return false;
         }
-        if(!(txtDataAdmissao.getText().length()>0)){
-            JOptionPane.showMessageDialog(null, "Informe a Data de Admissão!");
-            txtDataAdmissao.requestFocus();
+        
+        if(!(txtValorPassagem.getText().length()>0)){
+            JOptionPane.showMessageDialog(null, "Informe o valor da passagem!"); 
+            txtValorPassagem.requestFocus();
             return false;
         }
-        if(!(txtSalario.getText().length()>0)){
-            JOptionPane.showMessageDialog(null, "Informe o Salario!");
-            txtSalario.requestFocus();
+        if(!(cbPassageiro.getSelectedIndex()>=0)){
+            JOptionPane.showMessageDialog(null, "Selecione o passageiro!");
+            cbPassageiro.requestFocus();
             return false;
         }
-        if(!(txtDataNasc.getText().length()>0)){
-            JOptionPane.showMessageDialog(null, "Informe a Data de Nascimento!");
-            txtDataNasc.requestFocus();
+        if(!(cbVoo.getSelectedIndex()>=0)){
+            JOptionPane.showMessageDialog(null, "Selecione o voo!");
+            cbVoo.requestFocus();
             return false;
         }
         
@@ -101,9 +109,10 @@ public class FormPiloto extends javax.swing.JDialog {
     private void initComponents() {
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
-        listPiloto = org.jdesktop.observablecollections.ObservableCollections.observableList(new ArrayList<Piloto>())
+        listPassagem = org.jdesktop.observablecollections.ObservableCollections.observableList(new ArrayList<Passagem>())  ;
+        listPassageiro = org.jdesktop.observablecollections.ObservableCollections.observableList(new ArrayList<Passageiro>())
         ;
-        converteData = new modelo.ConverteData();
+        listVoo = org.jdesktop.observablecollections.ObservableCollections.observableList(new ArrayList<Voo>())  ;
         painelNavegacao = new javax.swing.JPanel();
         btnPrimeiro = new javax.swing.JButton();
         btnAnterior = new javax.swing.JButton();
@@ -113,7 +122,7 @@ public class FormPiloto extends javax.swing.JDialog {
         painelAbas = new javax.swing.JTabbedPane();
         abaListagem = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tblPiloto = new javax.swing.JTable();
+        tblPassagem = new javax.swing.JTable();
         abaDados = new javax.swing.JPanel();
         painelAcoes = new javax.swing.JPanel();
         btnNovo = new javax.swing.JButton();
@@ -125,16 +134,14 @@ public class FormPiloto extends javax.swing.JDialog {
         txtCodigo = new javax.swing.JTextField();
         jLabel15 = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
-        jLabel17 = new javax.swing.JLabel();
-        jLabel14 = new javax.swing.JLabel();
         jLabel18 = new javax.swing.JLabel();
-        javax.swing.text.MaskFormatter maskData2 = null;  try{  maskData2 = new javax.swing.text.MaskFormatter("##/##/####");  maskData2.setPlaceholderCharacter('_');  } catch(Exception e){  System.out.println("Erro na mascara " + e);  }
-        txtDataAdmissao = new javax.swing.JFormattedTextField(maskData2);
-        javax.swing.text.MaskFormatter maskData = null;  try{  maskData = new javax.swing.text.MaskFormatter("##/##/####");  maskData.setPlaceholderCharacter('_');  } catch(Exception e){  System.out.println("Erro na mascara " + e);  }
-        txtDataNasc = new javax.swing.JFormattedTextField(maskData);
-        txtNomePiloto = new javax.swing.JTextField();
-        txtSalario = new javax.swing.JTextField();
-        txtCpf = new javax.swing.JTextField();
+        txtNumeroPoltronas = new javax.swing.JTextField();
+        jLabel19 = new javax.swing.JLabel();
+        txtPesoBagagem = new javax.swing.JTextField();
+        jLabel20 = new javax.swing.JLabel();
+        txtValorPassagem = new javax.swing.JTextField();
+        cbVoo = new javax.swing.JComboBox<>();
+        cbPassageiro = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Cadastro de Cidades");
@@ -184,28 +191,33 @@ public class FormPiloto extends javax.swing.JDialog {
 
         abaListagem.setLayout(new java.awt.BorderLayout());
 
-        org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, listPiloto, tblPiloto);
-        org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codPiloto}"));
-        columnBinding.setColumnName("Cod Piloto");
+        org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, listPassagem, tblPassagem);
+        org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codPassagem}"));
+        columnBinding.setColumnName("Cod Passagem");
         columnBinding.setColumnClass(Integer.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${nome}"));
-        columnBinding.setColumnName("Nome");
-        columnBinding.setColumnClass(String.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${cpf}"));
-        columnBinding.setColumnName("Cpf");
-        columnBinding.setColumnClass(Integer.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${salario}"));
-        columnBinding.setColumnName("Salario");
+        columnBinding.setEditable(false);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${passageiro}"));
+        columnBinding.setColumnName("Passageiro");
+        columnBinding.setColumnClass(modelo.Passageiro.class);
+        columnBinding.setEditable(false);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${voo}"));
+        columnBinding.setColumnName("Voo");
+        columnBinding.setColumnClass(modelo.Voo.class);
+        columnBinding.setEditable(false);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${pesoBagagem}"));
+        columnBinding.setColumnName("Peso Bagagem");
         columnBinding.setColumnClass(Double.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${admissaoFormatado}"));
-        columnBinding.setColumnName("Admissao Formatado");
-        columnBinding.setColumnClass(String.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${nascimentoFormatado}"));
-        columnBinding.setColumnName("Nascimento Formatado");
-        columnBinding.setColumnClass(String.class);
+        columnBinding.setEditable(false);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${numeroPoltrona}"));
+        columnBinding.setColumnName("Numero Poltrona");
+        columnBinding.setColumnClass(Integer.class);
+        columnBinding.setEditable(false);
+        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${valorPassagem}"));
+        columnBinding.setColumnName("Valor Passagem");
+        columnBinding.setColumnClass(Double.class);
         bindingGroup.addBinding(jTableBinding);
         jTableBinding.bind();
-        jScrollPane1.setViewportView(tblPiloto);
+        jScrollPane1.setViewportView(tblPassagem);
 
         abaListagem.add(jScrollPane1, java.awt.BorderLayout.PAGE_START);
 
@@ -258,34 +270,31 @@ public class FormPiloto extends javax.swing.JDialog {
 
         txtCodigo.setEditable(false);
 
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, tblPiloto, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.codAeronave}"), txtCodigo, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, tblPassagem, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.codPassagem}"), txtCodigo, org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
-        jLabel15.setText("Piloto:");
+        jLabel15.setText("Passageiro:");
 
-        jLabel16.setText("CPF:");
+        jLabel16.setText("Voo:");
 
-        jLabel17.setText("Data Nascimento:");
+        jLabel18.setText("Nº Poltrona:");
 
-        jLabel14.setText("Salário:");
+        jLabel19.setText("Peso Bagagem(KG):");
 
-        jLabel18.setText("Data Admissão:");
+        txtPesoBagagem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtPesoBagagemActionPerformed(evt);
+            }
+        });
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, tblPiloto, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.dataAdmissao}"), txtDataAdmissao, org.jdesktop.beansbinding.BeanProperty.create("value"));
-        binding.setConverter(converteData);
-        bindingGroup.addBinding(binding);
+        jLabel20.setText("Valor Passagem(R$):");
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, tblPiloto, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.dataNascimento}"), txtDataNasc, org.jdesktop.beansbinding.BeanProperty.create("value"));
-        binding.setConverter(converteData);
-        bindingGroup.addBinding(binding);
+        org.jdesktop.swingbinding.JComboBoxBinding jComboBoxBinding = org.jdesktop.swingbinding.SwingBindings.createJComboBoxBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, listVoo, cbVoo);
+        bindingGroup.addBinding(jComboBoxBinding);
 
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, tblPiloto, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.nome}"), txtNomePiloto, org.jdesktop.beansbinding.BeanProperty.create("text"));
-        bindingGroup.addBinding(binding);
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, tblPiloto, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.salario}"), txtSalario, org.jdesktop.beansbinding.BeanProperty.create("text"));
-        bindingGroup.addBinding(binding);
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, tblPiloto, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.cpf}"), txtCpf, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        jComboBoxBinding = org.jdesktop.swingbinding.SwingBindings.createJComboBoxBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, listPassageiro, cbPassageiro);
+        bindingGroup.addBinding(jComboBoxBinding);
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, tblPassagem, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.passageiro}"), cbPassageiro, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
         javax.swing.GroupLayout abaDadosLayout = new javax.swing.GroupLayout(abaDados);
@@ -293,43 +302,44 @@ public class FormPiloto extends javax.swing.JDialog {
         abaDadosLayout.setHorizontalGroup(
             abaDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(abaDadosLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(painelAcoes, javax.swing.GroupLayout.DEFAULT_SIZE, 652, Short.MAX_VALUE)
-                .addContainerGap())
-            .addGroup(abaDadosLayout.createSequentialGroup()
-                .addGap(34, 34, 34)
-                .addGroup(abaDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(abaDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(abaDadosLayout.createSequentialGroup()
-                        .addGroup(abaDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel13)
-                            .addComponent(jLabel15))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(abaDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, abaDadosLayout.createSequentialGroup()
-                                .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(162, 162, 162))
-                            .addComponent(txtNomePiloto, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap()
+                        .addComponent(painelAcoes, javax.swing.GroupLayout.DEFAULT_SIZE, 652, Short.MAX_VALUE))
                     .addGroup(abaDadosLayout.createSequentialGroup()
-                        .addComponent(jLabel16)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(txtCpf, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(abaDadosLayout.createSequentialGroup()
-                        .addGroup(abaDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel17)
-                            .addComponent(jLabel14))
-                        .addGroup(abaDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGap(34, 34, 34)
+                        .addGroup(abaDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(abaDadosLayout.createSequentialGroup()
+                                .addComponent(jLabel19)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(txtDataNasc, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(txtPesoBagagem, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(abaDadosLayout.createSequentialGroup()
-                                .addGap(45, 45, 45)
-                                .addComponent(txtSalario, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))))
-                    .addGroup(abaDadosLayout.createSequentialGroup()
-                        .addComponent(jLabel18)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(txtDataAdmissao, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(jLabel18)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(txtNumeroPoltronas, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(abaDadosLayout.createSequentialGroup()
+                                .addGroup(abaDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel13)
+                                    .addComponent(jLabel15))
+                                .addGroup(abaDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(abaDadosLayout.createSequentialGroup()
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(162, 162, 162))
+                                    .addGroup(abaDadosLayout.createSequentialGroup()
+                                        .addGap(90, 90, 90)
+                                        .addComponent(cbPassageiro, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(0, 0, Short.MAX_VALUE))))
+                            .addGroup(abaDadosLayout.createSequentialGroup()
+                                .addComponent(jLabel20)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(txtValorPassagem, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(abaDadosLayout.createSequentialGroup()
+                                .addComponent(jLabel16)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(cbVoo, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         abaDadosLayout.setVerticalGroup(
             abaDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -340,27 +350,27 @@ public class FormPiloto extends javax.swing.JDialog {
                 .addGroup(abaDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel13)
                     .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(23, 23, 23)
-                .addGroup(abaDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGap(27, 27, 27)
+                .addGroup(abaDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel15)
-                    .addComponent(txtNomePiloto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(19, 19, 19)
+                    .addComponent(cbPassageiro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(12, 12, 12)
                 .addGroup(abaDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel16)
-                    .addComponent(txtCpf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(24, 24, 24)
-                .addGroup(abaDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel17)
-                    .addComponent(txtDataNasc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(23, 23, 23)
-                .addGroup(abaDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel14)
-                    .addComponent(txtSalario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(21, 21, 21)
+                    .addComponent(cbVoo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addGroup(abaDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel18)
-                    .addComponent(txtDataAdmissao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(100, Short.MAX_VALUE))
+                    .addComponent(txtNumeroPoltronas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(abaDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtPesoBagagem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel19))
+                .addGap(18, 18, 18)
+                .addGroup(abaDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtValorPassagem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel20))
+                .addContainerGap(87, Short.MAX_VALUE))
         );
 
         painelAbas.addTab("Dados", abaDados);
@@ -387,8 +397,8 @@ public class FormPiloto extends javax.swing.JDialog {
 
     private void btnPrimeiroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrimeiroActionPerformed
         // TODO add your handling code here:
-        tblPiloto.setRowSelectionInterval(0, 0);
-        tblPiloto.scrollRectToVisible(tblPiloto.getCellRect(0, 0, true));
+        tblPassagem.setRowSelectionInterval(0, 0);
+        tblPassagem.scrollRectToVisible(tblPassagem.getCellRect(0, 0, true));
     }//GEN-LAST:event_btnPrimeiroActionPerformed
 
     private void btnFecharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFecharActionPerformed
@@ -400,19 +410,19 @@ public class FormPiloto extends javax.swing.JDialog {
     private void btnNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovoActionPerformed
         // TODO add your handling code here:
         trataEdicao(true);
-        listPiloto.add((Piloto)new Piloto());// cria um objeto e uma linha na tabela
-        int linha = listPiloto.size()-1;
-        tblPiloto.setRowSelectionInterval(linha, linha);// seleciona a linha
-        txtNomePiloto.requestFocus();// caixa texto nome recebe o foco
+        listPassagem.add((Passagem)new Passagem());// cria um objeto e uma linha na tabela
+        int linha = listPassagem.size()-1;
+        tblPassagem.setRowSelectionInterval(linha, linha);// seleciona a linha
+        cbPassageiro.requestFocus();// caixa texto nome recebe o foco
     }//GEN-LAST:event_btnNovoActionPerformed
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
         // TODO add your handling code here:
         if(validaCampos()){
         trataEdicao(false);
-        int linhaSelecionada = tblPiloto.getSelectedRow();
-        Piloto objPiloto = listPiloto.get(linhaSelecionada);
-        objDAOPiloto.salvar(objPiloto);
+        int linhaSelecionada = tblPassagem.getSelectedRow();
+        Passagem objPassagem = listPassagem.get(linhaSelecionada);
+        objDAOPassagem.salvar(objPassagem);
         atualizaTabela();
  
         }
@@ -422,7 +432,7 @@ public class FormPiloto extends javax.swing.JDialog {
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
         // TODO add your handling code here:
         trataEdicao(true);
-        txtNomePiloto.requestFocus();
+        cbPassageiro.requestFocus();
     }//GEN-LAST:event_btnEditarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
@@ -438,9 +448,9 @@ public class FormPiloto extends javax.swing.JDialog {
         "Pergunta",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE, 
         null,new String[]{"Sim","Não"},"Sim");
         if(opcao==0){
-          int linhaSelecionada = tblPiloto.getSelectedRow();
-          Piloto objPiloto = listPiloto.get(linhaSelecionada);
-          objDAOPiloto.remover(objPiloto);
+          int linhaSelecionada = tblPassagem.getSelectedRow();
+          Passagem objPassagem = listPassagem.get(linhaSelecionada);
+          objDAOPassagem.remover(objPassagem);
           atualizaTabela();
           trataEdicao(false);
         }
@@ -448,32 +458,36 @@ public class FormPiloto extends javax.swing.JDialog {
 
     private void btnAnteriorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnteriorActionPerformed
         // TODO add your handling code here:
-        int linha = tblPiloto.getSelectedRow();
+        int linha = tblPassagem.getSelectedRow();
         if((linha-1)>=0){
             linha--;
         }
-        tblPiloto.setRowSelectionInterval(linha, linha);
-        tblPiloto.scrollRectToVisible(tblPiloto.getCellRect(linha, 0, true));
+        tblPassagem.setRowSelectionInterval(linha, linha);
+        tblPassagem.scrollRectToVisible(tblPassagem.getCellRect(linha, 0, true));
         
     }//GEN-LAST:event_btnAnteriorActionPerformed
 
     private void btnProximoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProximoActionPerformed
         // TODO add your handling code here:
-       int linha = tblPiloto.getSelectedRow();
-        if((linha+1)<=(tblPiloto.getRowCount())-1){
+       int linha = tblPassagem.getSelectedRow();
+        if((linha+1)<=(tblPassagem.getRowCount())-1){
             linha++;
         }
-        tblPiloto.setRowSelectionInterval(linha, linha);
-        tblPiloto.scrollRectToVisible(tblPiloto.getCellRect(linha, 0, true));
+        tblPassagem.setRowSelectionInterval(linha, linha);
+        tblPassagem.scrollRectToVisible(tblPassagem.getCellRect(linha, 0, true));
     }//GEN-LAST:event_btnProximoActionPerformed
 
     private void btnUltimoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUltimoActionPerformed
         // TODO add your handling code here:
-        int linha = tblPiloto.getRowCount()-1;
-        tblPiloto.setRowSelectionInterval(linha, linha);
-        tblPiloto.scrollRectToVisible(tblPiloto.getCellRect(linha, 0, true));
+        int linha = tblPassagem.getRowCount()-1;
+        tblPassagem.setRowSelectionInterval(linha, linha);
+        tblPassagem.scrollRectToVisible(tblPassagem.getCellRect(linha, 0, true));
   
     }//GEN-LAST:event_btnUltimoActionPerformed
+
+    private void txtPesoBagagemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPesoBagagemActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtPesoBagagemActionPerformed
 
     
     /**
@@ -493,14 +507,62 @@ public class FormPiloto extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FormPiloto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FormPassagem.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FormPiloto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FormPassagem.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FormPiloto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FormPassagem.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FormPiloto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FormPassagem.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -521,7 +583,7 @@ public class FormPiloto extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                FormPiloto dialog = new FormPiloto(new javax.swing.JFrame(), true);
+                FormPassagem dialog = new FormPassagem(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -546,25 +608,26 @@ public class FormPiloto extends javax.swing.JDialog {
     private javax.swing.JButton btnProximo;
     private javax.swing.JButton btnSalvar;
     private javax.swing.JButton btnUltimo;
-    private modelo.ConverteData converteData;
+    private javax.swing.JComboBox<String> cbPassageiro;
+    private javax.swing.JComboBox<String> cbVoo;
     private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
-    private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
+    private javax.swing.JLabel jLabel20;
     private javax.swing.JScrollPane jScrollPane1;
-    private java.util.List<Piloto> listPiloto;
+    private java.util.List<Passageiro> listPassageiro;
+    private java.util.List<Passagem> listPassagem;
+    private java.util.List<Voo> listVoo;
     private javax.swing.JTabbedPane painelAbas;
     private javax.swing.JPanel painelAcoes;
     private javax.swing.JPanel painelNavegacao;
-    private javax.swing.JTable tblPiloto;
+    private javax.swing.JTable tblPassagem;
     private javax.swing.JTextField txtCodigo;
-    private javax.swing.JTextField txtCpf;
-    private javax.swing.JFormattedTextField txtDataAdmissao;
-    private javax.swing.JFormattedTextField txtDataNasc;
-    private javax.swing.JTextField txtNomePiloto;
-    private javax.swing.JTextField txtSalario;
+    private javax.swing.JTextField txtNumeroPoltronas;
+    private javax.swing.JTextField txtPesoBagagem;
+    private javax.swing.JTextField txtValorPassagem;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 

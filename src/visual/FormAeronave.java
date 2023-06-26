@@ -14,8 +14,6 @@ public class FormAeronave extends javax.swing.JDialog {
         initComponents();
         atualizaTabela();
         trataEdicao(false);
-        listAeronave.clear();
-        listAeronave.addAll(objDAOAeronave.getLista());
     }
     
     public void atualizaTabela(){

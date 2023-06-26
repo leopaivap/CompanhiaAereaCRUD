@@ -63,7 +63,7 @@ public class DAOPassageiro {
             pst.setString(1, obj.getNome());
             pst.setInt(2, obj.getCpf());
             pst.setDate(3, new java.sql.Date(obj.getDataNascimento().getTimeInMillis()));   
-            pst.setInt(5, obj.getCodPassageiro());
+            pst.setInt(4, obj.getCodPassageiro());
             if (pst.executeUpdate() > 0) {
                 JOptionPane.showMessageDialog(null, "Passageiro alterado");
                 return true;

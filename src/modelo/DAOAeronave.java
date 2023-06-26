@@ -80,11 +80,11 @@ public class DAOAeronave {
             PreparedStatement pst = Conexao.getPreparedStatement(sql);
             pst.setInt(1, obj.getCodAeronave());
             if (pst.executeUpdate() > 0) {
-                JOptionPane.showMessageDialog(null, "Aeronave removido");
+                JOptionPane.showMessageDialog(null, "Aeronave removida");
                 return true;
             } else {
 
-                JOptionPane.showMessageDialog(null, "Aeronave não removido");
+                JOptionPane.showMessageDialog(null, "Aeronave não removida");
                 return false;
             }
         } catch (SQLException e) {

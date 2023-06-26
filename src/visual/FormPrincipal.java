@@ -25,6 +25,7 @@ public class FormPrincipal extends javax.swing.JFrame {
         menuAeronave = new javax.swing.JMenuItem();
         menuPiloto = new javax.swing.JMenuItem();
         menuPassageiro = new javax.swing.JMenuItem();
+        menuPassagem = new javax.swing.JMenuItem();
         menuAjuda = new javax.swing.JMenu();
         menuSobre = new javax.swing.JMenuItem();
 
@@ -64,6 +65,14 @@ public class FormPrincipal extends javax.swing.JFrame {
             }
         });
         menuCadastro.add(menuPassageiro);
+
+        menuPassagem.setText("Passagem");
+        menuPassagem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuPassagemActionPerformed(evt);
+            }
+        });
+        menuCadastro.add(menuPassagem);
 
         barraMenu.add(menuCadastro);
 
@@ -148,6 +157,17 @@ public class FormPrincipal extends javax.swing.JFrame {
         form.setVisible(true); //mostra o form
     }//GEN-LAST:event_menuPassageiroActionPerformed
 
+    private void menuPassagemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuPassagemActionPerformed
+        FormPassagem form  = new FormPassagem(this,true);
+        //this: chama a partir deste form
+        // true: Modal: sobre o form principal e não deixa acessa-lo
+        form.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+        // não deixa fechar o form pelo x
+        form.setLocationRelativeTo(null); // centro
+        form.setResizable(false); // retira o botão maximizar
+        form.setVisible(true); //mostra o form
+    }//GEN-LAST:event_menuPassagemActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -194,6 +214,7 @@ public class FormPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenu menuAjuda;
     private javax.swing.JMenu menuCadastro;
     private javax.swing.JMenuItem menuPassageiro;
+    private javax.swing.JMenuItem menuPassagem;
     private javax.swing.JMenuItem menuPiloto;
     private javax.swing.JMenuItem menuSobre;
     // End of variables declaration//GEN-END:variables

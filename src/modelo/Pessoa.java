@@ -40,4 +40,11 @@ abstract public class Pessoa {
         return sdf.format(dataNascimento.getTime());
     }
 
+    @Override
+    public String toString() {
+        return  nome;
+    }
+    
+    
+
 }

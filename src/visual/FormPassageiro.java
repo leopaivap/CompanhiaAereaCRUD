@@ -14,8 +14,6 @@ public class FormPassageiro extends javax.swing.JDialog {
         initComponents();
         atualizaTabela();
         trataEdicao(false);
-        listPassageiro.clear();
-        listPassageiro.addAll(objDAOPassageiro.getLista());
     }
     
     public void atualizaTabela(){
@@ -40,7 +38,6 @@ public class FormPassageiro extends javax.swing.JDialog {
             txtCodigo.setText("");
             txtNomePassageiro.setText("");
             txtDataNasc.setText("");
-            txtPesoBagagem.setText("");
             txtCpf.setText("");
         }else{
             btnExcluir.setEnabled(!editando);
@@ -54,7 +51,6 @@ public class FormPassageiro extends javax.swing.JDialog {
         txtNomePassageiro.setEnabled(editando);
         txtCpf.setEnabled(editando);
         txtDataNasc.setEnabled(editando);
-        txtPesoBagagem.setEnabled(editando);
         tblPassageiro.setEnabled(editando);
         
     }
@@ -71,11 +67,6 @@ public class FormPassageiro extends javax.swing.JDialog {
             return false;
         }
         
-        if(!(txtPesoBagagem.getText().length()>0)){
-            JOptionPane.showMessageDialog(null, "Informe o Salario!");
-            txtPesoBagagem.requestFocus();
-            return false;
-        }
         if(!(txtDataNasc.getText().length()>0)){
             JOptionPane.showMessageDialog(null, "Informe a Data de Nascimento!");
             txtDataNasc.requestFocus();
@@ -121,11 +112,9 @@ public class FormPassageiro extends javax.swing.JDialog {
         jLabel15 = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
-        jLabel14 = new javax.swing.JLabel();
         javax.swing.text.MaskFormatter maskData = null;  try{  maskData = new javax.swing.text.MaskFormatter("##/##/####");  maskData.setPlaceholderCharacter('_');  } catch(Exception e){  System.out.println("Erro na mascara " + e);  }
         txtDataNasc = new javax.swing.JFormattedTextField(maskData);
         txtNomePassageiro = new javax.swing.JTextField();
-        txtPesoBagagem = new javax.swing.JTextField();
         txtCpf = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -192,13 +181,7 @@ public class FormPassageiro extends javax.swing.JDialog {
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${nascimentoFormatado}"));
         columnBinding.setColumnName("Data Nascimento");
         columnBinding.setColumnClass(String.class);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${pesoBagagem}"));
-        columnBinding.setColumnName("Peso Bagagem");
-        columnBinding.setColumnClass(Double.class);
         columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${elegivel}"));
-        columnBinding.setColumnName("Elegivel");
-        columnBinding.setColumnClass(Boolean.class);
         bindingGroup.addBinding(jTableBinding);
         jTableBinding.bind();
         jScrollPane1.setViewportView(tblPassageiro);
@@ -263,16 +246,11 @@ public class FormPassageiro extends javax.swing.JDialog {
 
         jLabel17.setText("Data Nascimento:");
 
-        jLabel14.setText("Peso Bagagem(KG):");
-
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, tblPassageiro, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.dataNascimento}"), txtDataNasc, org.jdesktop.beansbinding.BeanProperty.create("value"));
         binding.setConverter(converteData);
         bindingGroup.addBinding(binding);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, tblPassageiro, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.nome}"), txtNomePassageiro, org.jdesktop.beansbinding.BeanProperty.create("text"));
-        bindingGroup.addBinding(binding);
-
-        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, tblPassageiro, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.pesoBagagem}"), txtPesoBagagem, org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, tblPassageiro, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.cpf}"), txtCpf, org.jdesktop.beansbinding.BeanProperty.create("text"));
@@ -304,17 +282,9 @@ public class FormPassageiro extends javax.swing.JDialog {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(txtCpf, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(abaDadosLayout.createSequentialGroup()
-                        .addGroup(abaDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel17)
-                            .addComponent(jLabel14))
-                        .addGroup(abaDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(abaDadosLayout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(txtDataNasc, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(abaDadosLayout.createSequentialGroup()
-                                .addGap(45, 45, 45)
-                                .addComponent(txtPesoBagagem, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE)))))
+                        .addComponent(jLabel17)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 58, Short.MAX_VALUE)
+                        .addComponent(txtDataNasc, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         abaDadosLayout.setVerticalGroup(
@@ -338,11 +308,7 @@ public class FormPassageiro extends javax.swing.JDialog {
                 .addGroup(abaDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel17)
                     .addComponent(txtDataNasc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(23, 23, 23)
-                .addGroup(abaDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel14)
-                    .addComponent(txtPesoBagagem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(123, Short.MAX_VALUE))
+                .addContainerGap(170, Short.MAX_VALUE))
         );
 
         painelAbas.addTab("Dados", abaDados);
@@ -546,7 +512,6 @@ public class FormPassageiro extends javax.swing.JDialog {
     private javax.swing.JButton btnUltimo;
     private modelo.ConverteData converteData;
     private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
@@ -560,7 +525,6 @@ public class FormPassageiro extends javax.swing.JDialog {
     private javax.swing.JTextField txtCpf;
     private javax.swing.JFormattedTextField txtDataNasc;
     private javax.swing.JTextField txtNomePassageiro;
-    private javax.swing.JTextField txtPesoBagagem;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 

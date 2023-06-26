@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 public class Conexao {
 
@@ -36,11 +37,11 @@ public class Conexao {
         if (con == null) {
             con = getConexao();
         }
-
         try {
-            return con.prepareStatement(sql);
+            return con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+
         } catch (SQLException ex) {
-            System.out.println("Erro de SQL: " + ex.getMessage());
+            System.out.println("Erro no SQL" + ex.getMessage());
         }
         return null;
     }
