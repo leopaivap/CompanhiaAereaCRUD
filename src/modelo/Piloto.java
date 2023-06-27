@@ -6,7 +6,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Objects;
 
-public class Piloto extends Pessoa implements Serializable{
+public class Piloto extends Pessoa implements Serializable {
+
     private Integer codPiloto;
     private double salario;
     private Calendar dataAdmissao;
@@ -34,7 +35,7 @@ public class Piloto extends Pessoa implements Serializable{
     public void setDataAdmissao(Calendar dataAdmissao) {
         this.dataAdmissao = dataAdmissao;
     }
-    
+
     @Override
     public int hashCode() {
         int hash = 5;
@@ -59,11 +60,11 @@ public class Piloto extends Pessoa implements Serializable{
         }
         return true;
     }
-    
+
     @Transient
-    public String getAdmissaoFormatado(){
+    public String getAdmissaoFormatado() {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         return sdf.format(dataAdmissao.getTime());
     }
-    
+
 }

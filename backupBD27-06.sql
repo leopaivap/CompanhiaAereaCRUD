@@ -22,14 +22,14 @@ USE `companhiaaerea`;
 DROP TABLE IF EXISTS `aeronave`;
 CREATE TABLE IF NOT EXISTS `aeronave` (
   `codAeronave` int(11) NOT NULL AUTO_INCREMENT,
-  `nomeAviao` varchar(255) DEFAULT NULL,
-  `qtdAssento` int(11) DEFAULT NULL,
-  `autonomia` double DEFAULT NULL,
-  `capacidadeCarga` double DEFAULT NULL,
+  `nomeAviao` varchar(255) NOT NULL,
+  `qtdAssento` int(11) NOT NULL,
+  `autonomia` double NOT NULL,
+  `capacidadeCarga` double NOT NULL,
   PRIMARY KEY (`codAeronave`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 
--- Copiando dados para a tabela companhiaaerea.aeronave: ~0 rows (aproximadamente)
+-- Copiando dados para a tabela companhiaaerea.aeronave: ~1 rows (aproximadamente)
 /*!40000 ALTER TABLE `aeronave` DISABLE KEYS */;
 INSERT INTO `aeronave` (`codAeronave`, `nomeAviao`, `qtdAssento`, `autonomia`, `capacidadeCarga`) VALUES
 	(1, 'Boeing 777', 345, 7000, 10000);
@@ -43,7 +43,7 @@ CREATE TABLE IF NOT EXISTS `aeroporto` (
   PRIMARY KEY (`codAeroporto`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 
--- Copiando dados para a tabela companhiaaerea.aeroporto: ~0 rows (aproximadamente)
+-- Copiando dados para a tabela companhiaaerea.aeroporto: ~1 rows (aproximadamente)
 /*!40000 ALTER TABLE `aeroporto` DISABLE KEYS */;
 INSERT INTO `aeroporto` (`codAeroporto`, `nomeAeroporto`) VALUES
 	(1, 'Congonhas');
@@ -57,13 +57,14 @@ CREATE TABLE IF NOT EXISTS `passageiro` (
   `cpf` int(11) NOT NULL,
   `dataNascimento` date NOT NULL,
   PRIMARY KEY (`codPassageiro`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4;
 
--- Copiando dados para a tabela companhiaaerea.passageiro: ~0 rows (aproximadamente)
+-- Copiando dados para a tabela companhiaaerea.passageiro: ~3 rows (aproximadamente)
 /*!40000 ALTER TABLE `passageiro` DISABLE KEYS */;
 INSERT INTO `passageiro` (`codPassageiro`, `nomePassageiro`, `cpf`, `dataNascimento`) VALUES
 	(1, 'teste', 12121, '2023-06-10'),
-	(2, 'aak', 121212, '1111-11-11');
+	(2, 'aak', 121212, '1111-11-11'),
+	(3, 'teste passageiro', 1201200, '2001-10-12');
 /*!40000 ALTER TABLE `passageiro` ENABLE KEYS */;
 
 -- Copiando estrutura para tabela companhiaaerea.passagem
@@ -71,14 +72,11 @@ DROP TABLE IF EXISTS `passagem`;
 CREATE TABLE IF NOT EXISTS `passagem` (
   `codPassagem` int(11) NOT NULL AUTO_INCREMENT,
   `codVoo` int(11) NOT NULL,
-  `codPassageiro` int(11) NOT NULL,
   `numeroPoltrona` int(11) NOT NULL DEFAULT 0,
   `pesoBagagem` int(11) NOT NULL DEFAULT 0,
   `valorPassagem` int(11) NOT NULL,
   PRIMARY KEY (`codPassagem`),
   KEY `FK_passagem_voo` (`codVoo`),
-  KEY `FK_passagem_passageiro` (`codPassageiro`),
-  CONSTRAINT `FK_passagem_passageiro` FOREIGN KEY (`codPassageiro`) REFERENCES `passageiro` (`codPassageiro`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `FK_passagem_voo` FOREIGN KEY (`codVoo`) REFERENCES `voo` (`codVoo`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -98,7 +96,7 @@ CREATE TABLE IF NOT EXISTS `piloto` (
   PRIMARY KEY (`codPiloto`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
 
--- Copiando dados para a tabela companhiaaerea.piloto: ~2 rows (aproximadamente)
+-- Copiando dados para a tabela companhiaaerea.piloto: ~3 rows (aproximadamente)
 /*!40000 ALTER TABLE `piloto` DISABLE KEYS */;
 INSERT INTO `piloto` (`codPiloto`, `salario`, `dataAdmissao`, `nomePiloto`, `cpf`, `dataNascimento`) VALUES
 	(1, 1250, '2023-02-12', '4111', 111, '2023-02-12'),
@@ -111,11 +109,11 @@ DROP TABLE IF EXISTS `venda`;
 CREATE TABLE IF NOT EXISTS `venda` (
   `codvenda` int(11) NOT NULL AUTO_INCREMENT,
   `metodoPagamento` enum('Dinheiro','Pix','Cartão Crédito','Cartão Débito') NOT NULL,
-  `passageiro_codPassageiro` int(11) NOT NULL,
   `data` date NOT NULL,
-  PRIMARY KEY (`codvenda`,`passageiro_codPassageiro`),
-  KEY `fk_venda_passageiro1_idx` (`passageiro_codPassageiro`),
-  CONSTRAINT `fk_venda_passageiro1` FOREIGN KEY (`passageiro_codPassageiro`) REFERENCES `passageiro` (`codPassageiro`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  `codPassageiro` int(11) NOT NULL,
+  PRIMARY KEY (`codvenda`,`codPassageiro`) USING BTREE,
+  KEY `fk_venda_passageiro1_idx` (`codPassageiro`),
+  CONSTRAINT `fk_venda_passageiro1` FOREIGN KEY (`codPassageiro`) REFERENCES `passageiro` (`codPassageiro`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- Copiando dados para a tabela companhiaaerea.venda: ~0 rows (aproximadamente)
@@ -125,13 +123,14 @@ CREATE TABLE IF NOT EXISTS `venda` (
 -- Copiando estrutura para tabela companhiaaerea.vendapassagem
 DROP TABLE IF EXISTS `vendapassagem`;
 CREATE TABLE IF NOT EXISTS `vendapassagem` (
-  `venda_codvenda` int(11) NOT NULL,
-  `passagem_codPassagem` int(11) NOT NULL,
-  PRIMARY KEY (`venda_codvenda`,`passagem_codPassagem`),
-  KEY `fk_venda_has_passagem_passagem1_idx` (`passagem_codPassagem`),
-  KEY `fk_venda_has_passagem_venda1_idx` (`venda_codvenda`),
-  CONSTRAINT `fk_venda_has_passagem_passagem1` FOREIGN KEY (`passagem_codPassagem`) REFERENCES `passagem` (`codPassagem`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_venda_has_passagem_venda1` FOREIGN KEY (`venda_codvenda`) REFERENCES `venda` (`codvenda`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  `codVendaPassagem` int(11) NOT NULL AUTO_INCREMENT,
+  `codVenda` int(11) NOT NULL,
+  `codPassagem` int(11) NOT NULL,
+  PRIMARY KEY (`codVendaPassagem`),
+  KEY `fk_venda_has_passagem_passagem1_idx` (`codPassagem`),
+  KEY `fk_venda_has_passagem_venda1_idx` (`codVenda`),
+  CONSTRAINT `fk_venda_has_passagem_passagem1` FOREIGN KEY (`codPassagem`) REFERENCES `passagem` (`codPassagem`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_venda_has_passagem_venda1` FOREIGN KEY (`codVenda`) REFERENCES `venda` (`codvenda`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- Copiando dados para a tabela companhiaaerea.vendapassagem: ~0 rows (aproximadamente)
@@ -142,9 +141,11 @@ CREATE TABLE IF NOT EXISTS `vendapassagem` (
 DROP TABLE IF EXISTS `voo`;
 CREATE TABLE IF NOT EXISTS `voo` (
   `codVoo` int(11) NOT NULL AUTO_INCREMENT,
-  `codPiloto` int(11) NOT NULL DEFAULT 0,
+  `codPiloto` int(11) NOT NULL,
   `codAeroporto` int(11) NOT NULL,
   `codAeronave` int(11) NOT NULL,
+  `origem` varchar(50) NOT NULL,
+  `destino` varchar(50) NOT NULL,
   PRIMARY KEY (`codVoo`),
   KEY `FK_voo_piloto` (`codPiloto`),
   KEY `FK_voo_aeroporto` (`codAeroporto`),
@@ -152,10 +153,13 @@ CREATE TABLE IF NOT EXISTS `voo` (
   CONSTRAINT `FK_voo_aeronave` FOREIGN KEY (`codAeronave`) REFERENCES `aeronave` (`codAeronave`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `FK_voo_aeroporto` FOREIGN KEY (`codAeroporto`) REFERENCES `aeroporto` (`codAeroporto`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `FK_voo_piloto` FOREIGN KEY (`codPiloto`) REFERENCES `piloto` (`codPiloto`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
 
--- Copiando dados para a tabela companhiaaerea.voo: ~0 rows (aproximadamente)
+-- Copiando dados para a tabela companhiaaerea.voo: ~2 rows (aproximadamente)
 /*!40000 ALTER TABLE `voo` DISABLE KEYS */;
+INSERT INTO `voo` (`codVoo`, `codPiloto`, `codAeroporto`, `codAeronave`, `origem`, `destino`) VALUES
+	(1, 1, 1, 1, 'São Paulo', 'Rio de Janeiro'),
+	(2, 1, 1, 1, 'Belo Horizonte', 'Rio de Janeiro');
 /*!40000 ALTER TABLE `voo` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

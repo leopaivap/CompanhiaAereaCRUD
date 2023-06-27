@@ -98,7 +98,9 @@ public class FormPrincipal extends javax.swing.JFrame {
         menuAeronave = new javax.swing.JMenuItem();
         menuPiloto = new javax.swing.JMenuItem();
         menuPassageiro = new javax.swing.JMenuItem();
+        menuVoo = new javax.swing.JMenuItem();
         menuPassagem = new javax.swing.JMenuItem();
+        menuVenda = new javax.swing.JMenu();
         menuAjuda = new javax.swing.JMenu();
         menuSobre = new javax.swing.JMenuItem();
 
@@ -113,6 +115,7 @@ public class FormPrincipal extends javax.swing.JFrame {
         jLabel1.setBounds(0, -30, 676, 420);
 
         barraMenu.setBorder(null);
+        barraMenu.setBorderPainted(false);
 
         menuCadastro.setBackground(new java.awt.Color(4, 52, 68));
         menuCadastro.setBorder(null);
@@ -168,6 +171,14 @@ public class FormPrincipal extends javax.swing.JFrame {
         });
         menuCadastro.add(menuPassageiro);
 
+        menuVoo.setText("Voo");
+        menuVoo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuVooActionPerformed(evt);
+            }
+        });
+        menuCadastro.add(menuVoo);
+
         menuPassagem.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 14)); // NOI18N
         menuPassagem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgs/Icons-menuPrincipal/Icons-BarraCadastro/icons8-cartão-de-embarque-25.png"))); // NOI18N
         menuPassagem.setText("Passagem");
@@ -180,6 +191,14 @@ public class FormPrincipal extends javax.swing.JFrame {
         menuCadastro.add(menuPassagem);
 
         barraMenu.add(menuCadastro);
+
+        menuVenda.setText("Venda");
+        menuVenda.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuVendaActionPerformed(evt);
+            }
+        });
+        barraMenu.add(menuVenda);
 
         menuAjuda.setBackground(new java.awt.Color(4, 52, 68));
         menuAjuda.setBorder(null);
@@ -271,6 +290,28 @@ public class FormPrincipal extends javax.swing.JFrame {
         form.setVisible(true); //mostra o form
     }//GEN-LAST:event_menuPassagemActionPerformed
 
+    private void menuVooActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuVooActionPerformed
+        FormVoo form  = new FormVoo(this,true);
+        //this: chama a partir deste form
+        // true: Modal: sobre o form principal e não deixa acessa-lo
+        form.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+        // não deixa fechar o form pelo x
+        form.setLocationRelativeTo(null); // centro
+        form.setResizable(false); // retira o botão maximizar
+        form.setVisible(true); //mostra o form
+    }//GEN-LAST:event_menuVooActionPerformed
+
+    private void menuVendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuVendaActionPerformed
+         FormVenda form  = new FormVenda(this,true);
+        //this: chama a partir deste form
+        // true: Modal: sobre o form principal e não deixa acessa-lo
+        form.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+        // não deixa fechar o form pelo x
+        form.setLocationRelativeTo(null); // centro
+        form.setResizable(false); // retira o botão maximizar
+        form.setVisible(true); //mostra o form
+    }//GEN-LAST:event_menuVendaActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -321,5 +362,7 @@ public class FormPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem menuPassagem;
     private javax.swing.JMenuItem menuPiloto;
     private javax.swing.JMenuItem menuSobre;
+    private javax.swing.JMenu menuVenda;
+    private javax.swing.JMenuItem menuVoo;
     // End of variables declaration//GEN-END:variables
 }

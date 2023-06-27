@@ -1,13 +1,13 @@
 package modelo;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Passagem {
+public class Passagem implements Serializable{
     private Integer codPassagem;
     private int numeroPoltrona;
     private double pesoBagagem, valorPassagem;
     private Voo voo;
-    private Passageiro passageiro;
 
     public Integer getCodPassagem() {
         return codPassagem;
@@ -24,16 +24,6 @@ public class Passagem {
     public void setVoo(Voo voo) {
         this.voo = voo;
     }
-
-    public Passageiro getPassageiro() {
-        return passageiro;
-    }
-
-    public void setPassageiro(Passageiro passageiro) {
-        this.passageiro = passageiro;
-    }
-
-    
 
     public int getNumeroPoltrona() {
         return numeroPoltrona;

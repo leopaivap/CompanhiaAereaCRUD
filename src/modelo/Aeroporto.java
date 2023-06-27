@@ -3,7 +3,8 @@ package modelo;
 import java.io.Serializable;
 import java.util.Objects;
 
-public class Aeroporto implements Serializable{
+public class Aeroporto implements Serializable {
+
     private String nomeAeroporto;
     private Integer codAeroporto;
 
@@ -22,8 +23,8 @@ public class Aeroporto implements Serializable{
     public void setCodAeroporto(int codAeroporto) {
         this.codAeroporto = codAeroporto;
     }
-     
-     @Override
+
+    @Override
     public int hashCode() {
         int hash = 5;
         hash = 67 * hash + Objects.hashCode(this.codAeroporto);
@@ -47,4 +48,10 @@ public class Aeroporto implements Serializable{
         }
         return true;
     }
+
+    @Override
+    public String toString() {
+        return nomeAeroporto;
+    }
+
 }

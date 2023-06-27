@@ -14,15 +14,14 @@ import modelo.Aeronave;
 import modelo.Aeroporto;
 import modelo.Piloto;
 
-
 public class DAOVoo {
-    
+
     DAOAeroporto DAOAeroporto = new DAOAeroporto();
     DAOAeronave DAOAeronave = new DAOAeronave();
     DAOPiloto DAOPiloto = new DAOPiloto();
-    
-     public List<Voo> getLista(){
-         String sql = "select * from voo";
+
+    public List<Voo> getLista() {
+        String sql = "select * from voo";
         List<Voo> listaVoo = new ArrayList<>();
         try {
             PreparedStatement pst = Conexao.getPreparedStatement(sql);
@@ -33,7 +32,9 @@ public class DAOVoo {
                 objVoo.setAeroporto(DAOAeroporto.localizar(rs.getInt("codAeroporto")));
                 objVoo.setAeronave(DAOAeronave.localizar(rs.getInt("codAeronave")));
                 objVoo.setPiloto(DAOPiloto.localizar(rs.getInt("codPiloto")));
-                  
+                objVoo.setOrigem(rs.getString("origem"));
+                objVoo.setDestino(rs.getString("destino"));
+
                 listaVoo.add(objVoo);
             }
         } catch (SQLException ex) {
@@ -43,13 +44,21 @@ public class DAOVoo {
     }
 
     public boolean incluir(Voo obj) {
-        String sql = "insert into voo codPiloto = ?, codAeroporto = ?, codAeronave = ? values(?, ?, ?)";
+        String sql = "insert into voo (codAeroporto, codPiloto, codAeronave, origem, destino) values(?, ?, ?, ?, ?)";
         try {
             PreparedStatement pst = Conexao.getPreparedStatement(sql);
-            pst.setInt(1, obj.getAeronave().getCodAeronave());
-            pst.setInt(2, obj.getAeroporto().getCodAeroporto());
-            pst.setInt(3, obj.getPiloto().getCodPiloto());
-    
+           // pst.setInt(1, obj.getAeroporto(DAOAeroporto.localizar(rs.getInt("codAeroporto"))));
+            pst.setInt(1, obj.getAeroporto().getCodAeroporto());
+            pst.setInt(2, obj.getPiloto().getCodPiloto());
+            pst.setInt(3, obj.getAeronave().getCodAeronave());
+            pst.setString(4, obj.getOrigem());
+            pst.setString(5, obj.getDestino());
+            
+            System.out.println("cod piloto: " + obj.getPiloto().getCodPiloto());
+            System.out.println("cod aeroporto: " +obj.getAeroporto().getCodAeroporto());
+            System.out.println("cod aeronave: " + obj.getAeronave().getCodAeronave());
+            System.out.println("origem" +  obj.getOrigem());
+            System.out.println("destino" +  obj.getDestino());
             if (pst.executeUpdate() > 0) {
                 JOptionPane.showMessageDialog(null, "Voo incluido");
                 return true;
@@ -64,13 +73,15 @@ public class DAOVoo {
     }
 
     public boolean alterar(Voo obj) {
-        String sql = "update voo set codPiloto = ?, codAeroporto = ?, codAeronave = ? where codVoo = ?";
+        String sql = "update voo set codPiloto = ?, codAeroporto = ?, codAeronave = ?, origem = ?, destino = ? where codVoo = ?";
         try {
             PreparedStatement pst = Conexao.getPreparedStatement(sql);
             pst.setInt(1, obj.getAeronave().getCodAeronave());
             pst.setInt(2, obj.getAeroporto().getCodAeroporto());
             pst.setInt(3, obj.getPiloto().getCodPiloto());
-            pst.setInt(5, obj.getCodVoo());
+            pst.setString(4, obj.getOrigem());
+            pst.setString(5, obj.getDestino());
+            pst.setInt(6, obj.getCodVoo());
             if (pst.executeUpdate() > 0) {
                 JOptionPane.showMessageDialog(null, "Voo alterado");
                 return true;
@@ -124,7 +135,9 @@ public class DAOVoo {
                 obj.setAeronave(DAOAeronave.localizar(rs.getInt("codAeronave")));
                 obj.setAeroporto(DAOAeroporto.localizar(rs.getInt("codAeroporto")));
                 obj.setPiloto(DAOPiloto.localizar(rs.getInt("codPiloto")));
-                
+                obj.setOrigem(rs.getString("origem"));
+                obj.setDestino(rs.getString("destino"));
+
                 return obj;
             }
         } catch (SQLException e) {

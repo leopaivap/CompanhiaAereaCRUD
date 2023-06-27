@@ -403,12 +403,11 @@ public class FormAeronave extends javax.swing.JDialog {
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
         // TODO add your handling code here:
         if(validaCampos()){
-        trataEdicao(false);
-        int linhaSelecionada = tblAeronave.getSelectedRow();
-        Aeronave objAeronave = listAeronave.get(linhaSelecionada);
-        objDAOAeronave.salvar(objAeronave);
-        atualizaTabela();
- 
+            trataEdicao(false);
+            int linhaSelecionada = tblAeronave.getSelectedRow();
+            Aeronave objAeronave = listAeronave.get(linhaSelecionada);
+            objDAOAeronave.salvar(objAeronave);
+            atualizaTabela();
         }
         
     }//GEN-LAST:event_btnSalvarActionPerformed

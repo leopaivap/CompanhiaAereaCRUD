@@ -6,6 +6,7 @@ import java.util.Calendar;
 import java.util.Objects;
 
 abstract public class Pessoa {
+
     private int cpf;
     private String nome;
     private Calendar dataNascimento;
@@ -34,17 +35,15 @@ abstract public class Pessoa {
         return dataNascimento;
     }
 
-   @Transient
-    public String getNascimentoFormatado(){
+    @Transient
+    public String getNascimentoFormatado() {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         return sdf.format(dataNascimento.getTime());
     }
 
     @Override
     public String toString() {
-        return  nome;
+        return nome;
     }
-    
-    
 
 }

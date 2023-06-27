@@ -8,8 +8,6 @@ import java.util.Calendar;
 import java.util.List;
 import javax.swing.JOptionPane;
 import modelo.DAOVoo;
-import modelo.DAOPassageiro;
-import modelo.Passageiro;
 import modelo.Voo;
 
 public class DAOPassagem {
@@ -29,8 +27,7 @@ public class DAOPassagem {
                 objPassagem.setNumeroPoltrona(rs.getInt("numeroPoltrona"));
                 objPassagem.setPesoBagagem(rs.getDouble("pesoBagagem"));
                 objPassagem.setValorPassagem(rs.getDouble("valorPassagem"));
-                
-                objPassagem.setPassageiro(DAOPassageiro.localizar(rs.getInt("codPassageiro")));
+                       
                 objPassagem.setVoo(DAOVoo.localizar(rs.getInt("voo")));
                 
                 
@@ -43,14 +40,13 @@ public class DAOPassagem {
     }
 
     public boolean incluir(Passagem obj) {
-        String sql = "insert into passagem (codVoo, codPassageiro, numeroPoltrona, pesoBagagem, valorPassagem) values(?, ?, ?, ?, ?)";
+        String sql = "insert into passagem (codVoo, numeroPoltrona, pesoBagagem, valorPassagem) values(?, ?, ?, ?, ?)";
         try {
             PreparedStatement pst = Conexao.getPreparedStatement(sql);
             pst.setInt(1, obj.getVoo().getCodVoo());
-            pst.setInt(2, obj.getPassageiro().getCodPassageiro());
-            pst.setDouble(3, obj.getNumeroPoltrona());
-            pst.setDouble(4, obj.getPesoBagagem());
-            pst.setDouble(5, obj.getValorPassagem());
+            pst.setDouble(2, obj.getNumeroPoltrona());
+            pst.setDouble(3, obj.getPesoBagagem());
+            pst.setDouble(4, obj.getValorPassagem());
             if (pst.executeUpdate() > 0) {
                 JOptionPane.showMessageDialog(null, "Passagem incluido");
                 return true;
@@ -65,15 +61,14 @@ public class DAOPassagem {
     }
 
     public boolean alterar(Passagem obj) {
-        String sql = "update passagem set codVoo = ?, codPassageiro = ?, numeroPoltrona = ?, pesoBagagem = ?, valorPassagem = ? where codPassagem = ?";
+        String sql = "update passagem set codVoo = ?, numeroPoltrona = ?, pesoBagagem = ?, valorPassagem = ? where codPassagem = ?";
         try {
             PreparedStatement pst = Conexao.getPreparedStatement(sql);
             pst.setInt(1, obj.getVoo().getCodVoo());
-            pst.setInt(2, obj.getPassageiro().getCodPassageiro());
-            pst.setDouble(3, obj.getNumeroPoltrona());
-            pst.setDouble(4, obj.getPesoBagagem());
-            pst.setDouble(5, obj.getValorPassagem()); 
-            pst.setInt(6, obj.getCodPassagem());
+            pst.setDouble(2, obj.getNumeroPoltrona());
+            pst.setDouble(3, obj.getPesoBagagem());
+            pst.setDouble(4, obj.getValorPassagem()); 
+            pst.setInt(5, obj.getCodPassagem());
             if (pst.executeUpdate() > 0) {
                 JOptionPane.showMessageDialog(null, "Passagem alterado");
                 return true;
@@ -127,7 +122,6 @@ public class DAOPassagem {
                 obj.setNumeroPoltrona(rs.getInt("numeroPoltrona"));
                 obj.setPesoBagagem(rs.getDouble("pesoBagagem"));
                 obj.setValorPassagem(rs.getDouble("valorPassagem"));
-                obj.setPassageiro(DAOPassageiro.localizar(rs.getInt("codPassageiro")));
                 obj.setVoo(DAOVoo.localizar(rs.getInt("codVoo")));
                 
                 return obj;

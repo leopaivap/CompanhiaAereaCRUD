@@ -1,12 +1,14 @@
 package modelo;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Voo {
+public class Voo implements Serializable{
     private Integer codVoo;
     private Piloto piloto;
     private Aeroporto aeroporto;
     private Aeronave aeronave;
+    private String origem, destino;
 
     public Integer getCodVoo() {
         return codVoo;
@@ -39,6 +41,23 @@ public class Voo {
     public void setAeronave(Aeronave aeronave) {
         this.aeronave = aeronave;
     }
+
+    public String getOrigem() {
+        return origem;
+    }
+
+    public void setOrigem(String origem) {
+        this.origem = origem;
+    }
+
+    public String getDestino() {
+        return destino;
+    }
+
+    public void setDestino(String destino) {
+        this.destino = destino;
+    }
+    
     
 
     @Override
@@ -64,6 +83,11 @@ public class Voo {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public String toString() {
+        return "Origem: " + origem + ", Destino:" + destino;
     }
     
     
