@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS `aeronave` (
   PRIMARY KEY (`codAeronave`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 
--- Copiando dados para a tabela companhiaaerea.aeronave: ~1 rows (aproximadamente)
+-- Copiando dados para a tabela companhiaaerea.aeronave: ~0 rows (aproximadamente)
 /*!40000 ALTER TABLE `aeronave` DISABLE KEYS */;
 INSERT INTO `aeronave` (`codAeronave`, `nomeAviao`, `qtdAssento`, `autonomia`, `capacidadeCarga`) VALUES
 	(1, 'Boeing 777', 345, 7000, 10000);
@@ -43,7 +43,7 @@ CREATE TABLE IF NOT EXISTS `aeroporto` (
   PRIMARY KEY (`codAeroporto`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 
--- Copiando dados para a tabela companhiaaerea.aeroporto: ~1 rows (aproximadamente)
+-- Copiando dados para a tabela companhiaaerea.aeroporto: ~0 rows (aproximadamente)
 /*!40000 ALTER TABLE `aeroporto` DISABLE KEYS */;
 INSERT INTO `aeroporto` (`codAeroporto`, `nomeAeroporto`) VALUES
 	(1, 'Congonhas');
@@ -57,12 +57,13 @@ CREATE TABLE IF NOT EXISTS `passageiro` (
   `cpf` int(11) NOT NULL,
   `dataNascimento` date NOT NULL,
   PRIMARY KEY (`codPassageiro`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
 
--- Copiando dados para a tabela companhiaaerea.passageiro: ~1 rows (aproximadamente)
+-- Copiando dados para a tabela companhiaaerea.passageiro: ~0 rows (aproximadamente)
 /*!40000 ALTER TABLE `passageiro` DISABLE KEYS */;
 INSERT INTO `passageiro` (`codPassageiro`, `nomePassageiro`, `cpf`, `dataNascimento`) VALUES
-	(1, 'teste', 12121, '2023-06-10');
+	(1, 'teste', 12121, '2023-06-10'),
+	(2, 'aak', 121212, '1111-11-11');
 /*!40000 ALTER TABLE `passageiro` ENABLE KEYS */;
 
 -- Copiando estrutura para tabela companhiaaerea.passagem
@@ -95,13 +96,47 @@ CREATE TABLE IF NOT EXISTS `piloto` (
   `cpf` int(11) NOT NULL,
   `dataNascimento` date NOT NULL,
   PRIMARY KEY (`codPiloto`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
 
--- Copiando dados para a tabela companhiaaerea.piloto: ~1 rows (aproximadamente)
+-- Copiando dados para a tabela companhiaaerea.piloto: ~2 rows (aproximadamente)
 /*!40000 ALTER TABLE `piloto` DISABLE KEYS */;
 INSERT INTO `piloto` (`codPiloto`, `salario`, `dataAdmissao`, `nomePiloto`, `cpf`, `dataNascimento`) VALUES
-	(1, 1250, '2023-02-12', 'Salomao', 12, '1111-11-11');
+	(1, 1250, '2023-02-12', '4111', 111, '2023-02-12'),
+	(3, 0, '1111-11-11', '444', 0, '1111-11-11'),
+	(4, 0, '1111-11-11', '1', 34, '1111-11-11');
 /*!40000 ALTER TABLE `piloto` ENABLE KEYS */;
+
+-- Copiando estrutura para tabela companhiaaerea.venda
+DROP TABLE IF EXISTS `venda`;
+CREATE TABLE IF NOT EXISTS `venda` (
+  `codvenda` int(11) NOT NULL AUTO_INCREMENT,
+  `metodoPagamento` enum('Dinheiro','Pix','Cartão Crédito','Cartão Débito') NOT NULL,
+  `passageiro_codPassageiro` int(11) NOT NULL,
+  `data` date NOT NULL,
+  PRIMARY KEY (`codvenda`,`passageiro_codPassageiro`),
+  KEY `fk_venda_passageiro1_idx` (`passageiro_codPassageiro`),
+  CONSTRAINT `fk_venda_passageiro1` FOREIGN KEY (`passageiro_codPassageiro`) REFERENCES `passageiro` (`codPassageiro`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Copiando dados para a tabela companhiaaerea.venda: ~0 rows (aproximadamente)
+/*!40000 ALTER TABLE `venda` DISABLE KEYS */;
+/*!40000 ALTER TABLE `venda` ENABLE KEYS */;
+
+-- Copiando estrutura para tabela companhiaaerea.vendapassagem
+DROP TABLE IF EXISTS `vendapassagem`;
+CREATE TABLE IF NOT EXISTS `vendapassagem` (
+  `venda_codvenda` int(11) NOT NULL,
+  `passagem_codPassagem` int(11) NOT NULL,
+  PRIMARY KEY (`venda_codvenda`,`passagem_codPassagem`),
+  KEY `fk_venda_has_passagem_passagem1_idx` (`passagem_codPassagem`),
+  KEY `fk_venda_has_passagem_venda1_idx` (`venda_codvenda`),
+  CONSTRAINT `fk_venda_has_passagem_passagem1` FOREIGN KEY (`passagem_codPassagem`) REFERENCES `passagem` (`codPassagem`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_venda_has_passagem_venda1` FOREIGN KEY (`venda_codvenda`) REFERENCES `venda` (`codvenda`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Copiando dados para a tabela companhiaaerea.vendapassagem: ~0 rows (aproximadamente)
+/*!40000 ALTER TABLE `vendapassagem` DISABLE KEYS */;
+/*!40000 ALTER TABLE `vendapassagem` ENABLE KEYS */;
 
 -- Copiando estrutura para tabela companhiaaerea.voo
 DROP TABLE IF EXISTS `voo`;

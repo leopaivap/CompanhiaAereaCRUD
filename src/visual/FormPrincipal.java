@@ -1,15 +1,87 @@
-package visual;
+package 
+        visual;
 
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Graphics;
+import java.awt.Insets;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import javax.swing.BorderFactory;
+import javax.swing.JComponent;
 import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JPopupMenu;
+import javax.swing.MenuElement;
+import javax.swing.SwingConstants;
+import javax.swing.border.Border;
+import javax.swing.plaf.basic.BasicMenuBarUI;
 
 public class FormPrincipal extends javax.swing.JFrame {
 
 
     public FormPrincipal() {
         initComponents();
-    }
+        configurarMenuBar();
+               
+        setResizable(false);   
+        
+}
+    
+    private void configurarMenuBar() {
+        
+        barraMenu.setUI(new BasicMenuBarUI() {
 
+            @Override
+            public void paint(Graphics g, JComponent c) {
+                g.setColor(new Color(4, 52, 68)); // Cor #043444
+                g.fillRect(0, 0, c.getWidth(), c.getHeight());
+            }
+         });
+        
+         MenuElement[] menus = barraMenu.getSubElements();
+            
+         for (MenuElement menuElement : menus) {
+
+           JMenu menu = (JMenu) menuElement.getComponent();
+           changeComponentColors(menu);
+           menu.setOpaque(true);
+
+           MenuElement[] menuElements = menu.getSubElements();
+
+           for (MenuElement popupMenuElement : menuElements) {
+
+               JPopupMenu popupMenu = (JPopupMenu) popupMenuElement.getComponent();
+               popupMenu.setBorder(null);
+
+               MenuElement[] menuItens = popupMenuElement.getSubElements();
+
+               for (MenuElement menuItemElement : menuItens) {
+
+                   JMenuItem menuItem = (JMenuItem) menuItemElement.getComponent();
+                   changeComponentColors2(menuItem);
+                   menuItem.setOpaque(true);
+
+               }
+           }
+       }
+        
+        
+    }
+    
+    private void changeComponentColors(Component comp) {       
+        comp.setBackground(new Color(4, 52, 68));
+        comp.setForeground(new Color(255, 255, 255));
+    }
+    
+    private void changeComponentColors2(Component comp) {       
+        comp.setBackground(new Color(9, 92, 120));
+        comp.setForeground(new Color(255, 255, 255));
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -19,6 +91,7 @@ public class FormPrincipal extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel1 = new javax.swing.JLabel();
         barraMenu = new javax.swing.JMenuBar();
         menuCadastro = new javax.swing.JMenu();
         menuAeroporto = new javax.swing.JMenuItem();
@@ -31,10 +104,30 @@ public class FormPrincipal extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Sistema de Cadastro");
+        setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        setMinimumSize(new java.awt.Dimension(676, 450));
+        getContentPane().setLayout(null);
 
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgs/WhatsApp Image 2023-06-26 at 07.23.31.jpeg"))); // NOI18N
+        getContentPane().add(jLabel1);
+        jLabel1.setBounds(0, -30, 676, 420);
+
+        barraMenu.setBorder(null);
+
+        menuCadastro.setBackground(new java.awt.Color(4, 52, 68));
+        menuCadastro.setBorder(null);
+        menuCadastro.setForeground(new java.awt.Color(188, 148, 132));
+        menuCadastro.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgs/Icons-menuPrincipal/IconsBarraMenu/icons8-cadastro-30 (1).png"))); // NOI18N
         menuCadastro.setText("Cadastro");
+        menuCadastro.setFocusPainted(true);
+        menuCadastro.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 18)); // NOI18N
+        menuCadastro.setIconTextGap(5);
+        menuCadastro.setOpaque(true);
 
+        menuAeroporto.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 14)); // NOI18N
+        menuAeroporto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgs/Icons-menuPrincipal/Icons-BarraCadastro/icons8-aeroporto-25 .png"))); // NOI18N
         menuAeroporto.setText("Aeroporto");
+        menuAeroporto.setBorder(null);
         menuAeroporto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 menuAeroportoActionPerformed(evt);
@@ -42,7 +135,10 @@ public class FormPrincipal extends javax.swing.JFrame {
         });
         menuCadastro.add(menuAeroporto);
 
+        menuAeronave.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 14)); // NOI18N
+        menuAeronave.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgs/Icons-menuPrincipal/Icons-BarraCadastro/icons8-avião-25.png"))); // NOI18N
         menuAeronave.setText("Aeronave");
+        menuAeronave.setBorder(null);
         menuAeronave.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 menuAeronaveActionPerformed(evt);
@@ -50,7 +146,10 @@ public class FormPrincipal extends javax.swing.JFrame {
         });
         menuCadastro.add(menuAeronave);
 
+        menuPiloto.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 14)); // NOI18N
+        menuPiloto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgs/Icons-menuPrincipal/Icons-BarraCadastro/icons8-chapéu-de-piloto-25.png"))); // NOI18N
         menuPiloto.setText("Piloto");
+        menuPiloto.setBorder(null);
         menuPiloto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 menuPilotoActionPerformed(evt);
@@ -58,7 +157,10 @@ public class FormPrincipal extends javax.swing.JFrame {
         });
         menuCadastro.add(menuPiloto);
 
+        menuPassageiro.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 14)); // NOI18N
+        menuPassageiro.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgs/Icons-menuPrincipal/Icons-BarraCadastro/icons8-passageiro-25.png"))); // NOI18N
         menuPassageiro.setText("Passageiro");
+        menuPassageiro.setBorder(null);
         menuPassageiro.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 menuPassageiroActionPerformed(evt);
@@ -66,7 +168,10 @@ public class FormPrincipal extends javax.swing.JFrame {
         });
         menuCadastro.add(menuPassageiro);
 
+        menuPassagem.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 14)); // NOI18N
+        menuPassagem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgs/Icons-menuPrincipal/Icons-BarraCadastro/icons8-cartão-de-embarque-25.png"))); // NOI18N
         menuPassagem.setText("Passagem");
+        menuPassagem.setBorder(null);
         menuPassagem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 menuPassagemActionPerformed(evt);
@@ -76,8 +181,17 @@ public class FormPrincipal extends javax.swing.JFrame {
 
         barraMenu.add(menuCadastro);
 
+        menuAjuda.setBackground(new java.awt.Color(4, 52, 68));
+        menuAjuda.setBorder(null);
+        menuAjuda.setForeground(new java.awt.Color(188, 148, 132));
+        menuAjuda.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgs/Icons-menuPrincipal/IconsBarraMenu/icons8-ajuda-30 (1).png"))); // NOI18N
         menuAjuda.setText("Ajuda");
+        menuAjuda.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 18)); // NOI18N
+        menuAjuda.setIconTextGap(5);
+        menuAjuda.setMargin(new java.awt.Insets(0, 0, 0, 100));
 
+        menuSobre.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 14)); // NOI18N
+        menuSobre.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgs/Icons-menuPrincipal/Icons-BarraAjuda/icons8-informação-25.png"))); // NOI18N
         menuSobre.setText("Sobre");
         menuSobre.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -89,17 +203,6 @@ public class FormPrincipal extends javax.swing.JFrame {
         barraMenu.add(menuAjuda);
 
         setJMenuBar(barraMenu);
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 274, Short.MAX_VALUE)
-        );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -179,7 +282,7 @@ public class FormPrincipal extends javax.swing.JFrame {
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
+                if ("Windows".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
@@ -209,6 +312,7 @@ public class FormPrincipal extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuBar barraMenu;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JMenuItem menuAeronave;
     private javax.swing.JMenuItem menuAeroporto;
     private javax.swing.JMenu menuAjuda;
