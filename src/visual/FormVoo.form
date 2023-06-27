@@ -193,6 +193,7 @@
                       <Subbinding sourcePath="${codVoo}">
                         <BindingParameter name="NAME" value="Cod Voo"/>
                         <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="Integer.class"/>
+                        <BindingParameter name="javax.swing.binding.ParameterKeys.EDITABLE" value="false"/>
                       </Subbinding>
                       <Subbinding sourcePath="${aeroporto}">
                         <BindingParameter name="NAME" value="Aeroporto"/>
@@ -202,6 +203,7 @@
                       <Subbinding sourcePath="${aeronave}">
                         <BindingParameter name="NAME" value="Aeronave"/>
                         <BindingParameter name="javax.swing.binding.ParameterKeys.COLUMN_CLASS" value="modelo.Aeronave.class"/>
+                        <BindingParameter name="javax.swing.binding.ParameterKeys.EDITABLE" value="false"/>
                       </Subbinding>
                       <Subbinding sourcePath="${piloto}">
                         <BindingParameter name="NAME" value="Piloto"/>
@@ -431,6 +433,7 @@
             <Component class="javax.swing.JComboBox" name="cbxAeroporto">
               <BindingProperties>
                 <BindingProperty name="elements" source="listAeroporto" target="cbxAeroporto" targetPath="elements" updateStrategy="0" immediately="false"/>
+                <BindingProperty name="selectedItem" source="tblVoo" sourcePath="${selectedElement.aeroporto}" target="cbxAeroporto" targetPath="selectedItem" updateStrategy="0" immediately="false"/>
               </BindingProperties>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
@@ -439,7 +442,7 @@
             <Component class="javax.swing.JComboBox" name="cbxPiloto">
               <BindingProperties>
                 <BindingProperty name="elements" source="listPiloto" target="cbxPiloto" targetPath="elements" updateStrategy="0" immediately="false"/>
-                <BindingProperty name="selectedItem" source="tblVoo" sourcePath="${selectedElement.passageiro}" target="cbxPiloto" targetPath="selectedItem" updateStrategy="0" immediately="false"/>
+                <BindingProperty name="selectedItem" source="tblVoo" sourcePath="${selectedElement.piloto}" target="cbxPiloto" targetPath="selectedItem" updateStrategy="0" immediately="false"/>
               </BindingProperties>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
@@ -453,6 +456,7 @@
             <Component class="javax.swing.JComboBox" name="cbxAeronave">
               <BindingProperties>
                 <BindingProperty name="elements" source="listAeronave" target="cbxAeronave" targetPath="elements" updateStrategy="0" immediately="false"/>
+                <BindingProperty name="selectedItem" source="tblVoo" sourcePath="${selectedElement.aeronave}" target="cbxAeronave" targetPath="selectedItem" updateStrategy="0" immediately="false"/>
               </BindingProperties>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>

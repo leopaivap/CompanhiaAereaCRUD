@@ -13,7 +13,7 @@ public class DAOVendaPassagem {
     DAOVenda daoVenda = new DAOVenda();
     
     public List<VendaPassagem> getListaVendaPassagem(Integer id) {
-        String sql = "select * from vendapassagem where idvenda=?";
+        String sql = "select * from vendapassagem where VENDA_codVenda = ?";
         List<VendaPassagem> lista = new ArrayList<>();
         try {
             PreparedStatement pst = Conexao.getPreparedStatement(sql);
@@ -22,9 +22,9 @@ public class DAOVendaPassagem {
             while (rs.next()) {
                 VendaPassagem obj = new VendaPassagem();
                // System.out.println("IDVENDA="+rs.getInt("idvenda"));
-                obj.getVenda().setCodVenda(rs.getInt("venda_codvenda"));
+                obj.getVenda().setCodVenda(rs.getInt("VENDA_codVenda"));
                 obj.setCodVendaPassagem(rs.getInt("codVendaPassagem"));
-                obj.setPassagem(daoPassagem.localizar(rs.getInt("codPassagem")));
+                obj.setPassagem(daoPassagem.localizar(rs.getInt("PASSAGEM_codPassagem")));
                 
 
                 lista.add(obj);
@@ -40,7 +40,7 @@ public class DAOVendaPassagem {
 
     public boolean incluir(VendaPassagem objVendaPassagem) {
 
-        String sql = "insert into vendapassagem (venda_codvenda, passagem_codPassagem) values (?,?)";
+        String sql = "insert into vendapassagem (VENDA_codVenda, PASSAGEM_codPassagem) values (?,?)";
         try {
             PreparedStatement pst = Conexao.getPreparedStatement(sql);
             pst.setInt(2, objVendaPassagem.getPassagem().getCodPassagem());
@@ -63,7 +63,7 @@ public class DAOVendaPassagem {
     }
 
     public boolean remover(VendaPassagem objVendaPassagem) {
-        String sql = "delete from vendapassagem where idvendapassagem=?";
+        String sql = "delete from vendapassagem where codVendaPassagem = ?";
         
         try {
             PreparedStatement pst = Conexao.getPreparedStatement(sql);

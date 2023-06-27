@@ -29,9 +29,9 @@ public class DAOVoo {
             while (rs.next()) {
                 Voo objVoo = new Voo();
                 objVoo.setCodVoo(rs.getInt("codVoo"));
-                objVoo.setAeroporto(DAOAeroporto.localizar(rs.getInt("codAeroporto")));
-                objVoo.setAeronave(DAOAeronave.localizar(rs.getInt("codAeronave")));
-                objVoo.setPiloto(DAOPiloto.localizar(rs.getInt("codPiloto")));
+                objVoo.setAeroporto(DAOAeroporto.localizar(rs.getInt("AEROPORTO_codAeroporto")));
+                objVoo.setAeronave(DAOAeronave.localizar(rs.getInt("AERONAVE_codAeronave")));
+                objVoo.setPiloto(DAOPiloto.localizar(rs.getInt("PILOTO_codPiloto")));
                 objVoo.setOrigem(rs.getString("origem"));
                 objVoo.setDestino(rs.getString("destino"));
 
@@ -44,7 +44,7 @@ public class DAOVoo {
     }
 
     public boolean incluir(Voo obj) {
-        String sql = "insert into voo (codAeroporto, codPiloto, codAeronave, origem, destino) values(?, ?, ?, ?, ?)";
+        String sql = "insert into voo (AEROPORTO_codAeroporto, PILOTO_codPiloto, AERONAVE_codAeronave, origem, destino) values(?, ?, ?, ?, ?)";
         try {
             PreparedStatement pst = Conexao.getPreparedStatement(sql);
            // pst.setInt(1, obj.getAeroporto(DAOAeroporto.localizar(rs.getInt("codAeroporto"))));
@@ -73,7 +73,7 @@ public class DAOVoo {
     }
 
     public boolean alterar(Voo obj) {
-        String sql = "update voo set codPiloto = ?, codAeroporto = ?, codAeronave = ?, origem = ?, destino = ? where codVoo = ?";
+        String sql = "update voo set PILOTO_codPiloto = ?, AEROPORTO_codAeroporto = ?, AERONAVE_codAeronave = ?, origem = ?, destino = ? where codVoo = ?";
         try {
             PreparedStatement pst = Conexao.getPreparedStatement(sql);
             pst.setInt(1, obj.getAeronave().getCodAeronave());
@@ -132,9 +132,9 @@ public class DAOVoo {
             ResultSet rs = pst.executeQuery();
             while (rs.next()) {
                 obj.setCodVoo(rs.getInt("codVoo"));
-                obj.setAeronave(DAOAeronave.localizar(rs.getInt("codAeronave")));
-                obj.setAeroporto(DAOAeroporto.localizar(rs.getInt("codAeroporto")));
-                obj.setPiloto(DAOPiloto.localizar(rs.getInt("codPiloto")));
+                obj.setAeronave(DAOAeronave.localizar(rs.getInt("AERONAVE_codAERONAVE")));
+                obj.setAeroporto(DAOAeroporto.localizar(rs.getInt("AEROPORTO_codAeroporto")));
+                obj.setPiloto(DAOPiloto.localizar(rs.getInt("PILOTO_codPiloto")));
                 obj.setOrigem(rs.getString("origem"));
                 obj.setDestino(rs.getString("destino"));
 

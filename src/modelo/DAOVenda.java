@@ -15,7 +15,7 @@ public class DAOVenda {
 
     public boolean incluir(Venda objVenda) {
         
-        String sql = "insert into venda (metodoPagamento, data, passageiro_codPassageiro,) values (?, ?, ?)";
+        String sql = "insert into venda (metodoPagamento, data, PASSAGEIRO_codPassageiro) values (?, ?, ?)";
         try {
             PreparedStatement pst = Conexao.getPreparedStatement(sql);
             pst.setString(1, objVenda.getMetodoPagamento());

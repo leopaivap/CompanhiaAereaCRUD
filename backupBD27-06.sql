@@ -43,7 +43,7 @@ CREATE TABLE IF NOT EXISTS `aeroporto` (
   PRIMARY KEY (`codAeroporto`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 
--- Copiando dados para a tabela companhiaaerea.aeroporto: ~1 rows (aproximadamente)
+-- Copiando dados para a tabela companhiaaerea.aeroporto: ~0 rows (aproximadamente)
 /*!40000 ALTER TABLE `aeroporto` DISABLE KEYS */;
 INSERT INTO `aeroporto` (`codAeroporto`, `nomeAeroporto`) VALUES
 	(1, 'Congonhas');
@@ -59,7 +59,7 @@ CREATE TABLE IF NOT EXISTS `passageiro` (
   PRIMARY KEY (`codPassageiro`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4;
 
--- Copiando dados para a tabela companhiaaerea.passageiro: ~3 rows (aproximadamente)
+-- Copiando dados para a tabela companhiaaerea.passageiro: ~0 rows (aproximadamente)
 /*!40000 ALTER TABLE `passageiro` DISABLE KEYS */;
 INSERT INTO `passageiro` (`codPassageiro`, `nomePassageiro`, `cpf`, `dataNascimento`) VALUES
 	(1, 'teste', 12121, '2023-06-10'),
@@ -71,17 +71,19 @@ INSERT INTO `passageiro` (`codPassageiro`, `nomePassageiro`, `cpf`, `dataNascime
 DROP TABLE IF EXISTS `passagem`;
 CREATE TABLE IF NOT EXISTS `passagem` (
   `codPassagem` int(11) NOT NULL AUTO_INCREMENT,
-  `codVoo` int(11) NOT NULL,
+  `VOO_codVoo` int(11) NOT NULL,
   `numeroPoltrona` int(11) NOT NULL DEFAULT 0,
   `pesoBagagem` int(11) NOT NULL DEFAULT 0,
   `valorPassagem` int(11) NOT NULL,
   PRIMARY KEY (`codPassagem`),
-  KEY `FK_passagem_voo` (`codVoo`),
-  CONSTRAINT `FK_passagem_voo` FOREIGN KEY (`codVoo`) REFERENCES `voo` (`codVoo`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  KEY `FK_passagem_voo` (`VOO_codVoo`),
+  CONSTRAINT `FK_passagem_voo` FOREIGN KEY (`VOO_codVoo`) REFERENCES `voo` (`codVoo`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 
 -- Copiando dados para a tabela companhiaaerea.passagem: ~0 rows (aproximadamente)
 /*!40000 ALTER TABLE `passagem` DISABLE KEYS */;
+INSERT INTO `passagem` (`codPassagem`, `VOO_codVoo`, `numeroPoltrona`, `pesoBagagem`, `valorPassagem`) VALUES
+	(1, 2, 0, 0, 0);
 /*!40000 ALTER TABLE `passagem` ENABLE KEYS */;
 
 -- Copiando estrutura para tabela companhiaaerea.piloto
@@ -96,7 +98,7 @@ CREATE TABLE IF NOT EXISTS `piloto` (
   PRIMARY KEY (`codPiloto`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
 
--- Copiando dados para a tabela companhiaaerea.piloto: ~3 rows (aproximadamente)
+-- Copiando dados para a tabela companhiaaerea.piloto: ~2 rows (aproximadamente)
 /*!40000 ALTER TABLE `piloto` DISABLE KEYS */;
 INSERT INTO `piloto` (`codPiloto`, `salario`, `dataAdmissao`, `nomePiloto`, `cpf`, `dataNascimento`) VALUES
 	(1, 1250, '2023-02-12', '4111', 111, '2023-02-12'),
@@ -110,56 +112,67 @@ CREATE TABLE IF NOT EXISTS `venda` (
   `codvenda` int(11) NOT NULL AUTO_INCREMENT,
   `metodoPagamento` enum('Dinheiro','Pix','Cartão Crédito','Cartão Débito') NOT NULL,
   `data` date NOT NULL,
-  `codPassageiro` int(11) NOT NULL,
-  PRIMARY KEY (`codvenda`,`codPassageiro`) USING BTREE,
-  KEY `fk_venda_passageiro1_idx` (`codPassageiro`),
-  CONSTRAINT `fk_venda_passageiro1` FOREIGN KEY (`codPassageiro`) REFERENCES `passageiro` (`codPassageiro`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `PASSAGEIRO_codPassageiro` int(11) NOT NULL,
+  PRIMARY KEY (`codvenda`,`PASSAGEIRO_codPassageiro`) USING BTREE,
+  KEY `fk_venda_passageiro1_idx` (`PASSAGEIRO_codPassageiro`),
+  CONSTRAINT `fk_venda_passageiro1` FOREIGN KEY (`PASSAGEIRO_codPassageiro`) REFERENCES `passageiro` (`codPassageiro`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4;
 
 -- Copiando dados para a tabela companhiaaerea.venda: ~0 rows (aproximadamente)
 /*!40000 ALTER TABLE `venda` DISABLE KEYS */;
+INSERT INTO `venda` (`codvenda`, `metodoPagamento`, `data`, `PASSAGEIRO_codPassageiro`) VALUES
+	(1, 'Pix', '2023-06-27', 2),
+	(2, 'Pix', '2023-06-27', 3),
+	(3, 'Pix', '2023-06-27', 3),
+	(4, 'Pix', '2023-06-27', 3),
+	(5, 'Pix', '2023-06-27', 2),
+	(6, 'Pix', '2023-06-27', 1);
 /*!40000 ALTER TABLE `venda` ENABLE KEYS */;
 
 -- Copiando estrutura para tabela companhiaaerea.vendapassagem
 DROP TABLE IF EXISTS `vendapassagem`;
 CREATE TABLE IF NOT EXISTS `vendapassagem` (
   `codVendaPassagem` int(11) NOT NULL AUTO_INCREMENT,
-  `codVenda` int(11) NOT NULL,
-  `codPassagem` int(11) NOT NULL,
+  `VENDA_codVenda` int(11) NOT NULL,
+  `PASSAGEM_codPassagem` int(11) NOT NULL,
   PRIMARY KEY (`codVendaPassagem`),
-  KEY `fk_venda_has_passagem_passagem1_idx` (`codPassagem`),
-  KEY `fk_venda_has_passagem_venda1_idx` (`codVenda`),
-  CONSTRAINT `fk_venda_has_passagem_passagem1` FOREIGN KEY (`codPassagem`) REFERENCES `passagem` (`codPassagem`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_venda_has_passagem_venda1` FOREIGN KEY (`codVenda`) REFERENCES `venda` (`codvenda`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  KEY `fk_venda_has_passagem_passagem1_idx` (`PASSAGEM_codPassagem`),
+  KEY `fk_venda_has_passagem_venda1_idx` (`VENDA_codVenda`),
+  CONSTRAINT `fk_venda_has_passagem_passagem1` FOREIGN KEY (`PASSAGEM_codPassagem`) REFERENCES `passagem` (`codPassagem`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_venda_has_passagem_venda1` FOREIGN KEY (`VENDA_codVenda`) REFERENCES `venda` (`codvenda`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4;
 
 -- Copiando dados para a tabela companhiaaerea.vendapassagem: ~0 rows (aproximadamente)
 /*!40000 ALTER TABLE `vendapassagem` DISABLE KEYS */;
+INSERT INTO `vendapassagem` (`codVendaPassagem`, `VENDA_codVenda`, `PASSAGEM_codPassagem`) VALUES
+	(8, 5, 1),
+	(9, 6, 1);
 /*!40000 ALTER TABLE `vendapassagem` ENABLE KEYS */;
 
 -- Copiando estrutura para tabela companhiaaerea.voo
 DROP TABLE IF EXISTS `voo`;
 CREATE TABLE IF NOT EXISTS `voo` (
   `codVoo` int(11) NOT NULL AUTO_INCREMENT,
-  `codPiloto` int(11) NOT NULL,
-  `codAeroporto` int(11) NOT NULL,
-  `codAeronave` int(11) NOT NULL,
+  `PILOTO_codPiloto` int(11) NOT NULL,
+  `AEROPORTO_codAeroporto` int(11) NOT NULL,
+  `AERONAVE_codAeronave` int(11) NOT NULL,
   `origem` varchar(50) NOT NULL,
   `destino` varchar(50) NOT NULL,
   PRIMARY KEY (`codVoo`),
-  KEY `FK_voo_piloto` (`codPiloto`),
-  KEY `FK_voo_aeroporto` (`codAeroporto`),
-  KEY `FK_voo_aeronave` (`codAeronave`),
-  CONSTRAINT `FK_voo_aeronave` FOREIGN KEY (`codAeronave`) REFERENCES `aeronave` (`codAeronave`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `FK_voo_aeroporto` FOREIGN KEY (`codAeroporto`) REFERENCES `aeroporto` (`codAeroporto`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `FK_voo_piloto` FOREIGN KEY (`codPiloto`) REFERENCES `piloto` (`codPiloto`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
+  KEY `FK_voo_piloto` (`PILOTO_codPiloto`),
+  KEY `FK_voo_aeroporto` (`AEROPORTO_codAeroporto`),
+  KEY `FK_voo_aeronave` (`AERONAVE_codAeronave`),
+  CONSTRAINT `FK_voo_aeronave` FOREIGN KEY (`AERONAVE_codAeronave`) REFERENCES `aeronave` (`codAeronave`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_voo_aeroporto` FOREIGN KEY (`AEROPORTO_codAeroporto`) REFERENCES `aeroporto` (`codAeroporto`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_voo_piloto` FOREIGN KEY (`PILOTO_codPiloto`) REFERENCES `piloto` (`codPiloto`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4;
 
 -- Copiando dados para a tabela companhiaaerea.voo: ~2 rows (aproximadamente)
 /*!40000 ALTER TABLE `voo` DISABLE KEYS */;
-INSERT INTO `voo` (`codVoo`, `codPiloto`, `codAeroporto`, `codAeronave`, `origem`, `destino`) VALUES
+INSERT INTO `voo` (`codVoo`, `PILOTO_codPiloto`, `AEROPORTO_codAeroporto`, `AERONAVE_codAeronave`, `origem`, `destino`) VALUES
 	(1, 1, 1, 1, 'São Paulo', 'Rio de Janeiro'),
-	(2, 1, 1, 1, 'Belo Horizonte', 'Rio de Janeiro');
+	(2, 1, 1, 1, 'Belo Horizonte', 'Rio de Janeiro'),
+	(3, 1, 1, 1, 'asd', 'asd');
 /*!40000 ALTER TABLE `voo` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

@@ -73,5 +73,12 @@ public class Passagem implements Serializable{
         }
         return true;
     }
+
+    @Override
+    public String toString() {
+        return "Origem: "  + voo.getOrigem() + " | Destino: " + voo.getDestino();
+    }
+    
+    
     
 }

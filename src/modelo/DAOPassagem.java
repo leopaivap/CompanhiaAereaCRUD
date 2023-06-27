@@ -28,7 +28,7 @@ public class DAOPassagem {
                 objPassagem.setPesoBagagem(rs.getDouble("pesoBagagem"));
                 objPassagem.setValorPassagem(rs.getDouble("valorPassagem"));
                        
-                objPassagem.setVoo(DAOVoo.localizar(rs.getInt("voo")));
+                objPassagem.setVoo(DAOVoo.localizar(rs.getInt("VOO_codVoo")));
                 
                 
                 listaPassagem.add(objPassagem);
@@ -40,7 +40,7 @@ public class DAOPassagem {
     }
 
     public boolean incluir(Passagem obj) {
-        String sql = "insert into passagem (codVoo, numeroPoltrona, pesoBagagem, valorPassagem) values(?, ?, ?, ?, ?)";
+        String sql = "insert into passagem (VOO_codVoo, numeroPoltrona, pesoBagagem, valorPassagem) values(?, ?, ?, ?)";
         try {
             PreparedStatement pst = Conexao.getPreparedStatement(sql);
             pst.setInt(1, obj.getVoo().getCodVoo());
@@ -61,7 +61,7 @@ public class DAOPassagem {
     }
 
     public boolean alterar(Passagem obj) {
-        String sql = "update passagem set codVoo = ?, numeroPoltrona = ?, pesoBagagem = ?, valorPassagem = ? where codPassagem = ?";
+        String sql = "update passagem set VOO_codVoo = ?, numeroPoltrona = ?, pesoBagagem = ?, valorPassagem = ? where codPassagem = ?";
         try {
             PreparedStatement pst = Conexao.getPreparedStatement(sql);
             pst.setInt(1, obj.getVoo().getCodVoo());
@@ -122,7 +122,7 @@ public class DAOPassagem {
                 obj.setNumeroPoltrona(rs.getInt("numeroPoltrona"));
                 obj.setPesoBagagem(rs.getDouble("pesoBagagem"));
                 obj.setValorPassagem(rs.getDouble("valorPassagem"));
-                obj.setVoo(DAOVoo.localizar(rs.getInt("codVoo")));
+                obj.setVoo(DAOVoo.localizar(rs.getInt("VOO_codVoo")));
                 
                 return obj;
             }

@@ -101,6 +101,7 @@ public class FormPrincipal extends javax.swing.JFrame {
         menuVoo = new javax.swing.JMenuItem();
         menuPassagem = new javax.swing.JMenuItem();
         menuVenda = new javax.swing.JMenu();
+        menuTesteVenda = new javax.swing.JMenuItem();
         menuAjuda = new javax.swing.JMenu();
         menuSobre = new javax.swing.JMenuItem();
 
@@ -198,6 +199,15 @@ public class FormPrincipal extends javax.swing.JFrame {
                 menuVendaActionPerformed(evt);
             }
         });
+
+        menuTesteVenda.setText("jMenuItem1");
+        menuTesteVenda.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuTesteVendaActionPerformed(evt);
+            }
+        });
+        menuVenda.add(menuTesteVenda);
+
         barraMenu.add(menuVenda);
 
         menuAjuda.setBackground(new java.awt.Color(4, 52, 68));
@@ -302,7 +312,7 @@ public class FormPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_menuVooActionPerformed
 
     private void menuVendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuVendaActionPerformed
-         FormVenda form  = new FormVenda(this,true);
+        FormVenda form  = new FormVenda(this,true);
         //this: chama a partir deste form
         // true: Modal: sobre o form principal e não deixa acessa-lo
         form.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
@@ -311,6 +321,17 @@ public class FormPrincipal extends javax.swing.JFrame {
         form.setResizable(false); // retira o botão maximizar
         form.setVisible(true); //mostra o form
     }//GEN-LAST:event_menuVendaActionPerformed
+
+    private void menuTesteVendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuTesteVendaActionPerformed
+       FormVenda form  = new FormVenda(this,true);
+        //this: chama a partir deste form
+        // true: Modal: sobre o form principal e não deixa acessa-lo
+        form.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+        // não deixa fechar o form pelo x
+        form.setLocationRelativeTo(null); // centro
+        form.setResizable(false); // retira o botão maximizar
+        form.setVisible(true); //mostra o form
+    }//GEN-LAST:event_menuTesteVendaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -362,6 +383,7 @@ public class FormPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem menuPassagem;
     private javax.swing.JMenuItem menuPiloto;
     private javax.swing.JMenuItem menuSobre;
+    private javax.swing.JMenuItem menuTesteVenda;
     private javax.swing.JMenu menuVenda;
     private javax.swing.JMenuItem menuVoo;
     // End of variables declaration//GEN-END:variables

@@ -439,6 +439,7 @@
             <Component class="javax.swing.JComboBox" name="cbVoo">
               <BindingProperties>
                 <BindingProperty name="elements" source="listVoo" target="cbVoo" targetPath="elements" updateStrategy="0" immediately="false"/>
+                <BindingProperty name="selectedItem" source="tblPassagem" sourcePath="${selectedElement.voo}" target="cbVoo" targetPath="selectedItem" updateStrategy="0" immediately="false"/>
               </BindingProperties>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
