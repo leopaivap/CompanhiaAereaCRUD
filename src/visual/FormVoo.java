@@ -1,7 +1,15 @@
 package visual;
 
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Font;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import javax.swing.JButton;
 import javax.swing.JOptionPane;
+import javax.swing.UIManager;
+import javax.swing.border.LineBorder;
 import modelo.Voo;
 import modelo.DAOVoo;
 import modelo.Piloto;
@@ -23,6 +31,23 @@ public class FormVoo extends javax.swing.JDialog {
      */
     public FormVoo(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
+        
+        try {
+            UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
+            UIManager.put("nimbusBase", new Color(64,60,68));
+            UIManager.put("nimbusBlueGray", new Color(64,60,68));
+            UIManager.put("control", new Color(64,60,68));
+            UIManager.put("text", new Color(0, 0, 0));
+            UIManager.put("nimbusSelectionBackground", new Color(104, 93, 156));
+            UIManager.put("nimbusSelection", new Color(104, 93, 156));
+            UIManager.put("Table.background", new Color(60, 60, 68)); // #3c3c44
+            UIManager.put("Table.alternateRowColor", new Color(200, 200, 200)); // Cinza claro
+            UIManager.put("Table.alternateRowColor2", new Color(2, 26, 34)); // Cinza mais escuro
+            UIManager.put("TabbedPane.background", new Color(64, 60, 68)); // Cor da aba
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
         initComponents();
         atualizaTabela();
         trataEdicao(false);
@@ -32,7 +57,65 @@ public class FormVoo extends javax.swing.JDialog {
         listAeronave.addAll(objDAOAeronave.getLista());
         listPiloto.clear();
         listPiloto.addAll(objDAOPiloto.getLista());
+        formatarBotoes();
+        formatarBotoesNav();
     }
+    
+    private void formatarBotoesNav() {
+    for (Component componente : painelNavegacao.getComponents()) {
+        if (componente instanceof JButton) {
+            JButton botao = (JButton) componente;
+            
+            botao.setContentAreaFilled(false); 
+            botao.setOpaque(true); 
+            botao.setBackground(new Color(64,60,68));
+            botao.setForeground(new Color(255, 255, 255));
+            botao.setBorder(new LineBorder(new Color(7, 29 , 51)));
+            Font font = new Font("Arial", Font.PLAIN, 16);
+            botao.setFont(font);
+            
+            botao.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseEntered(MouseEvent evt) {
+                    botao.setBackground(new Color(83, 123, 136));
+                }
+
+                @Override
+                public void mouseExited(MouseEvent evt) {
+                    botao.setBackground(new Color(64,60,68));
+                }
+            });
+        }
+    }
+}
+    
+    private void formatarBotoes() {
+    for (Component componente : painelAcoes.getComponents()) {
+        if (componente instanceof JButton) {
+            JButton botao = (JButton) componente;
+            
+            botao.setContentAreaFilled(false); 
+            botao.setOpaque(true); 
+            botao.setBackground(new Color(2, 26, 34));
+            botao.setForeground(new Color(255, 255, 255));
+            botao.setBorder(new LineBorder(new Color(7, 29 , 51)));
+            Font font = new Font("Arial", Font.PLAIN, 14);
+            botao.setFont(font);
+            
+            botao.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseEntered(MouseEvent evt) {
+                    botao.setBackground(new Color(3, 39, 51));
+                }
+
+                @Override
+                public void mouseExited(MouseEvent evt) {
+                    botao.setBackground(new Color(2, 26, 34));
+                }
+            });
+        }
+    }
+}
 
     public void atualizaTabela() {
         listVoo.clear();
@@ -119,6 +202,7 @@ public class FormVoo extends javax.swing.JDialog {
         ;
         listAeronave = org.jdesktop.observablecollections.ObservableCollections.observableList(new ArrayList<Aeronave>())  ;
         listVoo = org.jdesktop.observablecollections.ObservableCollections.observableList(new ArrayList<Voo>())  ;
+        jPanel3 = new javax.swing.JPanel();
         painelNavegacao = new javax.swing.JPanel();
         btnPrimeiro = new javax.swing.JButton();
         btnAnterior = new javax.swing.JButton();
@@ -148,11 +232,16 @@ public class FormVoo extends javax.swing.JDialog {
         cbxAeronave = new javax.swing.JComboBox<>();
         jLabel21 = new javax.swing.JLabel();
         txtDestino = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        jLabelNavegacao = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Cadastro de Cidades");
+        setUndecorated(true);
 
-        painelNavegacao.setBorder(javax.swing.BorderFactory.createTitledBorder("Navegação"));
+        jPanel3.setBackground(new java.awt.Color(4, 52, 68));
+        jPanel3.setPreferredSize(new java.awt.Dimension(950, 550));
+
         painelNavegacao.setLayout(new java.awt.GridLayout(1, 0));
 
         btnPrimeiro.setText("Primeiro");
@@ -197,6 +286,9 @@ public class FormVoo extends javax.swing.JDialog {
 
         abaListagem.setLayout(new java.awt.BorderLayout());
 
+        tblVoo.setGridColor(new java.awt.Color(4, 71, 111));
+        tblVoo.setSelectionBackground(new java.awt.Color(7, 98, 133));
+
         org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, listVoo, tblVoo);
         org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codVoo}"));
         columnBinding.setColumnName("Cod Voo");
@@ -225,12 +317,21 @@ public class FormVoo extends javax.swing.JDialog {
         bindingGroup.addBinding(jTableBinding);
         jTableBinding.bind();
         jScrollPane1.setViewportView(tblVoo);
+        if (tblVoo.getColumnModel().getColumnCount() > 0) {
+            tblVoo.getColumnModel().getColumn(0).setResizable(false);
+            tblVoo.getColumnModel().getColumn(1).setResizable(false);
+            tblVoo.getColumnModel().getColumn(2).setResizable(false);
+            tblVoo.getColumnModel().getColumn(3).setResizable(false);
+            tblVoo.getColumnModel().getColumn(4).setResizable(false);
+            tblVoo.getColumnModel().getColumn(5).setResizable(false);
+        }
 
         abaListagem.add(jScrollPane1, java.awt.BorderLayout.PAGE_START);
 
         painelAbas.addTab("Listagem", abaListagem);
 
-        painelAcoes.setBorder(javax.swing.BorderFactory.createTitledBorder("Ações"));
+        abaDados.setBackground(new java.awt.Color(7, 71, 92));
+
         painelAcoes.setLayout(new java.awt.GridLayout(1, 0));
 
         btnNovo.setText("Novo");
@@ -273,6 +374,8 @@ public class FormVoo extends javax.swing.JDialog {
         });
         painelAcoes.add(btnExcluir);
 
+        jLabel13.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 12)); // NOI18N
+        jLabel13.setForeground(new java.awt.Color(255, 255, 255));
         jLabel13.setText("Còdigo");
 
         txtCodigo.setEditable(false);
@@ -280,10 +383,16 @@ public class FormVoo extends javax.swing.JDialog {
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, tblVoo, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.codPassagem}"), txtCodigo, org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
+        jLabel15.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 12)); // NOI18N
+        jLabel15.setForeground(new java.awt.Color(255, 255, 255));
         jLabel15.setText("Piloto:");
 
+        jLabel16.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 12)); // NOI18N
+        jLabel16.setForeground(new java.awt.Color(255, 255, 255));
         jLabel16.setText("Aeroporto:");
 
+        jLabel18.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 12)); // NOI18N
+        jLabel18.setForeground(new java.awt.Color(255, 255, 255));
         jLabel18.setText("Origem:");
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, tblVoo, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.origem}"), txtOrigem, org.jdesktop.beansbinding.BeanProperty.create("text"));
@@ -299,6 +408,8 @@ public class FormVoo extends javax.swing.JDialog {
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, tblVoo, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.piloto}"), cbxPiloto, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
+        jLabel17.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 12)); // NOI18N
+        jLabel17.setForeground(new java.awt.Color(255, 255, 255));
         jLabel17.setText("Aeronave:");
 
         jComboBoxBinding = org.jdesktop.swingbinding.SwingBindings.createJComboBoxBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, listAeronave, cbxAeronave);
@@ -306,60 +417,66 @@ public class FormVoo extends javax.swing.JDialog {
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, tblVoo, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.aeronave}"), cbxAeronave, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
+        jLabel21.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 12)); // NOI18N
+        jLabel21.setForeground(new java.awt.Color(255, 255, 255));
         jLabel21.setText("Destino:");
 
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, tblVoo, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.destino}"), txtDestino, org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
+
+        jLabel3.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 20)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel3.setText("Ações");
 
         javax.swing.GroupLayout abaDadosLayout = new javax.swing.GroupLayout(abaDados);
         abaDados.setLayout(abaDadosLayout);
         abaDadosLayout.setHorizontalGroup(
             abaDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(abaDadosLayout.createSequentialGroup()
+                .addGap(32, 32, 32)
                 .addGroup(abaDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(abaDadosLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(painelAcoes, javax.swing.GroupLayout.DEFAULT_SIZE, 652, Short.MAX_VALUE))
-                    .addGroup(abaDadosLayout.createSequentialGroup()
-                        .addGap(34, 34, 34)
-                        .addGroup(abaDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(abaDadosLayout.createSequentialGroup()
-                                .addComponent(jLabel18)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(txtOrigem, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(abaDadosLayout.createSequentialGroup()
-                                .addGroup(abaDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel13)
-                                    .addComponent(jLabel15))
-                                .addGroup(abaDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(abaDadosLayout.createSequentialGroup()
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(162, 162, 162))
-                                    .addGroup(abaDadosLayout.createSequentialGroup()
-                                        .addGap(90, 90, 90)
-                                        .addComponent(cbxPiloto, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                            .addGroup(abaDadosLayout.createSequentialGroup()
-                                .addComponent(jLabel16)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(cbxAeroporto, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, abaDadosLayout.createSequentialGroup()
-                                .addComponent(jLabel17)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(cbxAeronave, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(abaDadosLayout.createSequentialGroup()
-                                .addComponent(jLabel21)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(txtDestino, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 247, Short.MAX_VALUE)))
-                .addContainerGap())
+                    .addComponent(painelAcoes, javax.swing.GroupLayout.PREFERRED_SIZE, 800, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(abaDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(abaDadosLayout.createSequentialGroup()
+                            .addComponent(jLabel18)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtOrigem, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(abaDadosLayout.createSequentialGroup()
+                            .addGroup(abaDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel13)
+                                .addComponent(jLabel15))
+                            .addGroup(abaDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(abaDadosLayout.createSequentialGroup()
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(162, 162, 162))
+                                .addGroup(abaDadosLayout.createSequentialGroup()
+                                    .addGap(90, 90, 90)
+                                    .addComponent(cbxPiloto, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGroup(abaDadosLayout.createSequentialGroup()
+                            .addComponent(jLabel16)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(cbxAeroporto, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, abaDadosLayout.createSequentialGroup()
+                            .addComponent(jLabel17)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(cbxAeronave, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(abaDadosLayout.createSequentialGroup()
+                            .addComponent(jLabel21)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtDestino, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(33, Short.MAX_VALUE))
+            .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         abaDadosLayout.setVerticalGroup(
             abaDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(abaDadosLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(painelAcoes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(29, 29, 29)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(painelAcoes, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addGroup(abaDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel13)
                     .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -383,24 +500,67 @@ public class FormVoo extends javax.swing.JDialog {
                 .addGroup(abaDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel21)
                     .addComponent(txtDestino, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(91, Short.MAX_VALUE))
+                .addGap(25, 25, 25))
         );
 
         painelAbas.addTab("Dados", abaDados);
+
+        jLabelNavegacao.setOpaque(true);
+        jLabelNavegacao.setBackground(new java.awt.Color(7, 71, 92));
+        jLabelNavegacao.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 18)); // NOI18N
+        jLabelNavegacao.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelNavegacao.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabelNavegacao.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgs/Icons-menuPrincipal/Icons-BarraCadastro/iconVoo.png"))); // NOI18N
+        jLabelNavegacao.setText("NAVEGAÇÃO");
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabelNavegacao, javax.swing.GroupLayout.DEFAULT_SIZE, 950, Short.MAX_VALUE)
+            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                    .addContainerGap(40, Short.MAX_VALUE)
+                    .addComponent(painelAbas, javax.swing.GroupLayout.PREFERRED_SIZE, 870, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(40, 40, 40)))
+            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                    .addContainerGap(40, Short.MAX_VALUE)
+                    .addComponent(painelNavegacao, javax.swing.GroupLayout.PREFERRED_SIZE, 870, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(40, 40, 40)))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabelNavegacao, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(518, Short.MAX_VALUE))
+            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel3Layout.createSequentialGroup()
+                    .addGap(171, 171, 171)
+                    .addComponent(painelAbas, javax.swing.GroupLayout.PREFERRED_SIZE, 359, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(34, Short.MAX_VALUE)))
+            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel3Layout.createSequentialGroup()
+                    .addGap(83, 83, 83)
+                    .addComponent(painelNavegacao, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(444, Short.MAX_VALUE)))
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(painelNavegacao, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(painelAbas)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(painelNavegacao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(painelAbas, javax.swing.GroupLayout.PREFERRED_SIZE, 444, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 564, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         bindingGroup.bind();
@@ -689,6 +849,9 @@ public class FormVoo extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel21;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabelNavegacao;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private java.util.List<Aeronave> listAeronave;
     private java.util.List<Aeroporto> listAeroporto;

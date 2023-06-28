@@ -1,7 +1,15 @@
 package visual;
 
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Font;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import  java.util.ArrayList;
+import javax.swing.JButton;
 import javax.swing.JOptionPane;
+import javax.swing.UIManager;
+import javax.swing.border.LineBorder;
 import modelo.Passagem;
 import modelo.DAOPassagem;
 import modelo.Voo;
@@ -18,6 +26,23 @@ public class FormPassagem extends javax.swing.JDialog {
     /** Creates new form FormPassagem */
     public FormPassagem(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
+        
+        try {
+            UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
+            UIManager.put("nimbusBase", new Color(64,60,68));
+            UIManager.put("nimbusBlueGray", new Color(64,60,68));
+            UIManager.put("control", new Color(64,60,68));
+            UIManager.put("text", new Color(0, 0, 0));
+            UIManager.put("nimbusSelectionBackground", new Color(104, 93, 156));
+            UIManager.put("nimbusSelection", new Color(104, 93, 156));
+            UIManager.put("Table.background", new Color(60, 60, 68)); // #3c3c44
+            UIManager.put("Table.alternateRowColor", new Color(200, 200, 200)); // Cinza claro
+            UIManager.put("Table.alternateRowColor2", new Color(2, 26, 34)); // Cinza mais escuro
+            UIManager.put("TabbedPane.background", new Color(64, 60, 68)); // Cor da aba
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
         initComponents();
         atualizaTabela();
         trataEdicao(false);
@@ -25,7 +50,65 @@ public class FormPassagem extends javax.swing.JDialog {
         listPassageiro.addAll(objDAOPassageiro.getLista());
         listVoo.clear();
         listVoo.addAll(objDAOVoo.getLista());
+        formatarBotoes();
+        formatarBotoesNav();
     }
+    
+    private void formatarBotoesNav() {
+    for (Component componente : painelNavegacao.getComponents()) {
+        if (componente instanceof JButton) {
+            JButton botao = (JButton) componente;
+            
+            botao.setContentAreaFilled(false); 
+            botao.setOpaque(true); 
+            botao.setBackground(new Color(64,60,68));
+            botao.setForeground(new Color(255, 255, 255));
+            botao.setBorder(new LineBorder(new Color(7, 29 , 51)));
+            Font font = new Font("Arial", Font.PLAIN, 16);
+            botao.setFont(font);
+            
+            botao.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseEntered(MouseEvent evt) {
+                    botao.setBackground(new Color(83, 123, 136));
+                }
+
+                @Override
+                public void mouseExited(MouseEvent evt) {
+                    botao.setBackground(new Color(64,60,68));
+                }
+            });
+        }
+    }
+}
+    
+    private void formatarBotoes() {
+    for (Component componente : painelAcoes.getComponents()) {
+        if (componente instanceof JButton) {
+            JButton botao = (JButton) componente;
+            
+            botao.setContentAreaFilled(false); 
+            botao.setOpaque(true); 
+            botao.setBackground(new Color(2, 26, 34));
+            botao.setForeground(new Color(255, 255, 255));
+            botao.setBorder(new LineBorder(new Color(7, 29 , 51)));
+            Font font = new Font("Arial", Font.PLAIN, 14);
+            botao.setFont(font);
+            
+            botao.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseEntered(MouseEvent evt) {
+                    botao.setBackground(new Color(3, 39, 51));
+                }
+
+                @Override
+                public void mouseExited(MouseEvent evt) {
+                    botao.setBackground(new Color(2, 26, 34));
+                }
+            });
+        }
+    }
+}
     
     public void atualizaTabela(){
         listPassagem.clear();
@@ -63,6 +146,8 @@ public class FormPassagem extends javax.swing.JDialog {
         txtPesoBagagem.setEnabled(editando);
         txtValorPassagem.setEnabled(editando);
         tblPassagem.setEnabled(editando);
+        cbPassageiro.setEnabled(editando);
+        cbVoo.setEnabled(editando);
         
     }
     
@@ -113,6 +198,7 @@ public class FormPassagem extends javax.swing.JDialog {
         listPassageiro = org.jdesktop.observablecollections.ObservableCollections.observableList(new ArrayList<Passageiro>())
         ;
         listVoo = org.jdesktop.observablecollections.ObservableCollections.observableList(new ArrayList<Voo>())  ;
+        jPanel3 = new javax.swing.JPanel();
         painelNavegacao = new javax.swing.JPanel();
         btnPrimeiro = new javax.swing.JButton();
         btnAnterior = new javax.swing.JButton();
@@ -142,11 +228,16 @@ public class FormPassagem extends javax.swing.JDialog {
         txtValorPassagem = new javax.swing.JTextField();
         cbVoo = new javax.swing.JComboBox<>();
         cbPassageiro = new javax.swing.JComboBox<>();
+        jLabel3 = new javax.swing.JLabel();
+        jLabelNavegacao = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Cadastro de Cidades");
+        setUndecorated(true);
 
-        painelNavegacao.setBorder(javax.swing.BorderFactory.createTitledBorder("Navegação"));
+        jPanel3.setBackground(new java.awt.Color(4, 52, 68));
+        jPanel3.setPreferredSize(new java.awt.Dimension(900, 500));
+
         painelNavegacao.setLayout(new java.awt.GridLayout(1, 0));
 
         btnPrimeiro.setText("Primeiro");
@@ -191,14 +282,13 @@ public class FormPassagem extends javax.swing.JDialog {
 
         abaListagem.setLayout(new java.awt.BorderLayout());
 
+        tblPassagem.setGridColor(new java.awt.Color(4, 71, 111));
+        tblPassagem.setSelectionBackground(new java.awt.Color(7, 98, 133));
+
         org.jdesktop.swingbinding.JTableBinding jTableBinding = org.jdesktop.swingbinding.SwingBindings.createJTableBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, listPassagem, tblPassagem);
         org.jdesktop.swingbinding.JTableBinding.ColumnBinding columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${codPassagem}"));
         columnBinding.setColumnName("Cod Passagem");
         columnBinding.setColumnClass(Integer.class);
-        columnBinding.setEditable(false);
-        columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${passageiro}"));
-        columnBinding.setColumnName("Passageiro");
-        columnBinding.setColumnClass(modelo.Passageiro.class);
         columnBinding.setEditable(false);
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${voo}"));
         columnBinding.setColumnName("Voo");
@@ -215,15 +305,24 @@ public class FormPassagem extends javax.swing.JDialog {
         columnBinding = jTableBinding.addColumnBinding(org.jdesktop.beansbinding.ELProperty.create("${valorPassagem}"));
         columnBinding.setColumnName("Valor Passagem");
         columnBinding.setColumnClass(Double.class);
+        columnBinding.setEditable(false);
         bindingGroup.addBinding(jTableBinding);
         jTableBinding.bind();
         jScrollPane1.setViewportView(tblPassagem);
+        if (tblPassagem.getColumnModel().getColumnCount() > 0) {
+            tblPassagem.getColumnModel().getColumn(0).setResizable(false);
+            tblPassagem.getColumnModel().getColumn(1).setResizable(false);
+            tblPassagem.getColumnModel().getColumn(2).setResizable(false);
+            tblPassagem.getColumnModel().getColumn(3).setResizable(false);
+            tblPassagem.getColumnModel().getColumn(4).setResizable(false);
+        }
 
         abaListagem.add(jScrollPane1, java.awt.BorderLayout.PAGE_START);
 
         painelAbas.addTab("Listagem", abaListagem);
 
-        painelAcoes.setBorder(javax.swing.BorderFactory.createTitledBorder("Ações"));
+        abaDados.setBackground(new java.awt.Color(7, 71, 92));
+
         painelAcoes.setLayout(new java.awt.GridLayout(1, 0));
 
         btnNovo.setText("Novo");
@@ -266,6 +365,8 @@ public class FormPassagem extends javax.swing.JDialog {
         });
         painelAcoes.add(btnExcluir);
 
+        jLabel13.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 12)); // NOI18N
+        jLabel13.setForeground(new java.awt.Color(255, 255, 255));
         jLabel13.setText("Còdigo");
 
         txtCodigo.setEditable(false);
@@ -273,13 +374,27 @@ public class FormPassagem extends javax.swing.JDialog {
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, tblPassagem, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.codPassagem}"), txtCodigo, org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
 
+        jLabel15.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 12)); // NOI18N
+        jLabel15.setForeground(new java.awt.Color(255, 255, 255));
         jLabel15.setText("Passageiro:");
 
+        jLabel16.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 12)); // NOI18N
+        jLabel16.setForeground(new java.awt.Color(255, 255, 255));
         jLabel16.setText("Voo:");
 
+        jLabel18.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 12)); // NOI18N
+        jLabel18.setForeground(new java.awt.Color(255, 255, 255));
         jLabel18.setText("Nº Poltrona:");
 
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, tblPassagem, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.numeroPoltrona}"), txtNumeroPoltronas, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+
+        jLabel19.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 12)); // NOI18N
+        jLabel19.setForeground(new java.awt.Color(255, 255, 255));
         jLabel19.setText("Peso Bagagem(KG):");
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, tblPassagem, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.pesoBagagem}"), txtPesoBagagem, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
 
         txtPesoBagagem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -287,7 +402,12 @@ public class FormPassagem extends javax.swing.JDialog {
             }
         });
 
+        jLabel20.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 12)); // NOI18N
+        jLabel20.setForeground(new java.awt.Color(255, 255, 255));
         jLabel20.setText("Valor Passagem(R$):");
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, tblPassagem, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.valorPassagem}"), txtValorPassagem, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
 
         org.jdesktop.swingbinding.JComboBoxBinding jComboBoxBinding = org.jdesktop.swingbinding.SwingBindings.createJComboBoxBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, listVoo, cbVoo);
         bindingGroup.addBinding(jComboBoxBinding);
@@ -299,6 +419,11 @@ public class FormPassagem extends javax.swing.JDialog {
         binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, tblPassagem, org.jdesktop.beansbinding.ELProperty.create("${selectedElement.passageiro}"), cbPassageiro, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
+        jLabel3.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 20)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel3.setText("Ações");
+
         javax.swing.GroupLayout abaDadosLayout = new javax.swing.GroupLayout(abaDados);
         abaDados.setLayout(abaDadosLayout);
         abaDadosLayout.setHorizontalGroup(
@@ -307,7 +432,7 @@ public class FormPassagem extends javax.swing.JDialog {
                 .addGroup(abaDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(abaDadosLayout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(painelAcoes, javax.swing.GroupLayout.DEFAULT_SIZE, 652, Short.MAX_VALUE))
+                        .addComponent(painelAcoes, javax.swing.GroupLayout.DEFAULT_SIZE, 790, Short.MAX_VALUE))
                     .addGroup(abaDadosLayout.createSequentialGroup()
                         .addGap(34, 34, 34)
                         .addGroup(abaDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -325,13 +450,12 @@ public class FormPassagem extends javax.swing.JDialog {
                                     .addComponent(jLabel15))
                                 .addGroup(abaDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(abaDadosLayout.createSequentialGroup()
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(162, 162, 162))
-                                    .addGroup(abaDadosLayout.createSequentialGroup()
                                         .addGap(90, 90, 90)
-                                        .addComponent(cbPassageiro, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(0, 0, Short.MAX_VALUE))))
+                                        .addComponent(cbPassageiro, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, abaDadosLayout.createSequentialGroup()
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(0, 0, Short.MAX_VALUE))
                             .addGroup(abaDadosLayout.createSequentialGroup()
                                 .addComponent(jLabel20)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -340,15 +464,18 @@ public class FormPassagem extends javax.swing.JDialog {
                                 .addComponent(jLabel16)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(cbVoo, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         abaDadosLayout.setVerticalGroup(
             abaDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(abaDadosLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(painelAcoes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(29, 29, 29)
+                .addComponent(jLabel3)
+                .addGap(8, 8, 8)
+                .addComponent(painelAcoes, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
                 .addGroup(abaDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel13)
                     .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -372,24 +499,67 @@ public class FormPassagem extends javax.swing.JDialog {
                 .addGroup(abaDadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtValorPassagem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel20))
-                .addContainerGap(87, Short.MAX_VALUE))
+                .addGap(47, 47, 47))
         );
 
         painelAbas.addTab("Dados", abaDados);
+
+        jLabelNavegacao.setOpaque(true);
+        jLabelNavegacao.setBackground(new java.awt.Color(7, 71, 92));
+        jLabelNavegacao.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 18)); // NOI18N
+        jLabelNavegacao.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelNavegacao.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabelNavegacao.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgs/Icons-menuPrincipal/Icons-BarraCadastro/iconPassagem.png"))); // NOI18N
+        jLabelNavegacao.setText("NAVEGAÇÃO");
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabelNavegacao, javax.swing.GroupLayout.DEFAULT_SIZE, 920, Short.MAX_VALUE)
+                .addContainerGap())
+            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                    .addContainerGap(40, Short.MAX_VALUE)
+                    .addComponent(painelNavegacao, javax.swing.GroupLayout.PREFERRED_SIZE, 817, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(43, 43, 43)))
+            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                    .addContainerGap(42, Short.MAX_VALUE)
+                    .addComponent(painelAbas, javax.swing.GroupLayout.PREFERRED_SIZE, 815, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(43, 43, 43)))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabelNavegacao, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(517, Short.MAX_VALUE))
+            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel3Layout.createSequentialGroup()
+                    .addGap(73, 73, 73)
+                    .addComponent(painelNavegacao, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(458, Short.MAX_VALUE)))
+            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                    .addGap(142, 142, 142)
+                    .addComponent(painelAbas, javax.swing.GroupLayout.DEFAULT_SIZE, 415, Short.MAX_VALUE)
+                    .addContainerGap()))
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(painelNavegacao, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(painelAbas)
+            .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 932, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(painelNavegacao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(painelAbas, javax.swing.GroupLayout.PREFERRED_SIZE, 444, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 563, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         bindingGroup.bind();
@@ -618,6 +788,9 @@ public class FormPassagem extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabelNavegacao;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private java.util.List<Passageiro> listPassageiro;
     private java.util.List<Passagem> listPassagem;

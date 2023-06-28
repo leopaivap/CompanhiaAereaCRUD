@@ -22,11 +22,12 @@ public class DAOVendaPassagem {
             while (rs.next()) {
                 VendaPassagem obj = new VendaPassagem();
                // System.out.println("IDVENDA="+rs.getInt("idvenda"));
-                obj.getVenda().setCodVenda(rs.getInt("VENDA_codVenda"));
+                //System.out.println("LAST ID: " + daoVenda.getLastId());
+                
                 obj.setCodVendaPassagem(rs.getInt("codVendaPassagem"));
+                //obj.getVenda().setCodVenda(rs.getInt("VENDA_codVenda")); 
                 obj.setPassagem(daoPassagem.localizar(rs.getInt("PASSAGEM_codPassagem")));
                 
-
                 lista.add(obj);
             }
             rs.close();

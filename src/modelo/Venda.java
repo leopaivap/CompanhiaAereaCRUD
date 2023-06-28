@@ -67,6 +67,5 @@ public class Venda implements Serializable{
         }
         return true;
     }
-    
-    
+       
 }

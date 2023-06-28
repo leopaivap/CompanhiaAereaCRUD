@@ -7,7 +7,7 @@ import javax.swing.JOptionPane;
 
 public class DAOVenda {
      ConverteDataWEB converte = new ConverteDataWEB();
-    private int lastId;
+    private static int lastId;
 
     public int getLastId() {
         return lastId;

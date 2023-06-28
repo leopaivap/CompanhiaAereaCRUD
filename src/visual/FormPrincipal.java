@@ -1,24 +1,16 @@
-package 
-        visual;
+package visual;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Frame;
 import java.awt.Graphics;
-import java.awt.Insets;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import javax.swing.BorderFactory;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
-import javax.swing.JLabel;
 import javax.swing.JMenu;
-import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
 import javax.swing.MenuElement;
-import javax.swing.SwingConstants;
-import javax.swing.border.Border;
 import javax.swing.plaf.basic.BasicMenuBarUI;
 
 public class FormPrincipal extends javax.swing.JFrame {
@@ -27,7 +19,6 @@ public class FormPrincipal extends javax.swing.JFrame {
     public FormPrincipal() {
         initComponents();
         configurarMenuBar();
-               
         setResizable(false);   
         
 }
@@ -38,43 +29,43 @@ public class FormPrincipal extends javax.swing.JFrame {
 
             @Override
             public void paint(Graphics g, JComponent c) {
-                g.setColor(new Color(4, 52, 68)); // Cor #043444
+                g.setColor(new Color(7, 71, 92)); // Cor #043444
                 g.fillRect(0, 0, c.getWidth(), c.getHeight());
             }
          });
         
-         MenuElement[] menus = barraMenu.getSubElements();
+        MenuElement[] menus = barraMenu.getSubElements();
             
-         for (MenuElement menuElement : menus) {
+        for (MenuElement menuElement : menus) {
 
-           JMenu menu = (JMenu) menuElement.getComponent();
-           changeComponentColors(menu);
-           menu.setOpaque(true);
+            JMenu menu = (JMenu) menuElement.getComponent();
+            changeComponentColors(menu);
+            menu.setOpaque(true);
 
-           MenuElement[] menuElements = menu.getSubElements();
+            MenuElement[] menuElements = menu.getSubElements();
 
-           for (MenuElement popupMenuElement : menuElements) {
+            for (MenuElement popupMenuElement : menuElements) {
 
-               JPopupMenu popupMenu = (JPopupMenu) popupMenuElement.getComponent();
-               popupMenu.setBorder(null);
+                JPopupMenu popupMenu = (JPopupMenu) popupMenuElement.getComponent();
+                popupMenu.setBorder(null);
 
-               MenuElement[] menuItens = popupMenuElement.getSubElements();
+                MenuElement[] menuItens = popupMenuElement.getSubElements();
 
-               for (MenuElement menuItemElement : menuItens) {
+                for (MenuElement menuItemElement : menuItens) {
 
-                   JMenuItem menuItem = (JMenuItem) menuItemElement.getComponent();
-                   changeComponentColors2(menuItem);
-                   menuItem.setOpaque(true);
+                    JMenuItem menuItem = (JMenuItem) menuItemElement.getComponent();
+                    changeComponentColors2(menuItem);
+                    menuItem.setOpaque(true);
 
-               }
-           }
-       }
+                }
+            }
+        }
         
         
     }
     
     private void changeComponentColors(Component comp) {       
-        comp.setBackground(new Color(4, 52, 68));
+        comp.setBackground(new Color(7, 71, 92));
         comp.setForeground(new Color(255, 255, 255));
     }
     
@@ -82,6 +73,7 @@ public class FormPrincipal extends javax.swing.JFrame {
         comp.setBackground(new Color(9, 92, 120));
         comp.setForeground(new Color(255, 255, 255));
     }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -100,28 +92,36 @@ public class FormPrincipal extends javax.swing.JFrame {
         menuPassageiro = new javax.swing.JMenuItem();
         menuVoo = new javax.swing.JMenuItem();
         menuPassagem = new javax.swing.JMenuItem();
+        jMenuEspacamento3 = new javax.swing.JMenu();
         menuVenda = new javax.swing.JMenu();
         menuTesteVenda = new javax.swing.JMenuItem();
+        jMenuEspacamento2 = new javax.swing.JMenu();
         menuAjuda = new javax.swing.JMenu();
         menuSobre = new javax.swing.JMenuItem();
+        jMenuEspacamento = new javax.swing.JMenu();
+        jMenuMinimizar = new javax.swing.JMenu();
+        jMenuEspacamento1 = new javax.swing.JMenu();
+        jMenuFechar = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Sistema de Cadastro");
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        setMinimumSize(new java.awt.Dimension(676, 450));
+        setMinimumSize(new java.awt.Dimension(676, 438));
+        setUndecorated(true);
         getContentPane().setLayout(null);
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgs/WhatsApp Image 2023-06-26 at 07.23.31.jpeg"))); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgs/Icons-menuPrincipal/IconPlanoDeFundo/WhatsApp Image 2023-06-26 at 07.23.31 (2) (1).jpeg"))); // NOI18N
         getContentPane().add(jLabel1);
-        jLabel1.setBounds(0, -30, 676, 420);
+        jLabel1.setBounds(0, 0, 750, 420);
 
-        barraMenu.setBorder(null);
+        barraMenu.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 5));
         barraMenu.setBorderPainted(false);
+        barraMenu.setMargin(new java.awt.Insets(15, 0, 0, 0));
 
         menuCadastro.setBackground(new java.awt.Color(4, 52, 68));
         menuCadastro.setBorder(null);
         menuCadastro.setForeground(new java.awt.Color(188, 148, 132));
-        menuCadastro.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgs/Icons-menuPrincipal/IconsBarraMenu/icons8-cadastro-30 (1).png"))); // NOI18N
+        menuCadastro.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgs/Icons-menuPrincipal/IconsBarraMenu/iconCadastro.png"))); // NOI18N
         menuCadastro.setText("Cadastro");
         menuCadastro.setFocusPainted(true);
         menuCadastro.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 18)); // NOI18N
@@ -129,7 +129,7 @@ public class FormPrincipal extends javax.swing.JFrame {
         menuCadastro.setOpaque(true);
 
         menuAeroporto.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 14)); // NOI18N
-        menuAeroporto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgs/Icons-menuPrincipal/Icons-BarraCadastro/icons8-aeroporto-25 .png"))); // NOI18N
+        menuAeroporto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgs/Icons-menuPrincipal/Icons-BarraCadastro/iconAeroporto.png"))); // NOI18N
         menuAeroporto.setText("Aeroporto");
         menuAeroporto.setBorder(null);
         menuAeroporto.addActionListener(new java.awt.event.ActionListener() {
@@ -140,7 +140,7 @@ public class FormPrincipal extends javax.swing.JFrame {
         menuCadastro.add(menuAeroporto);
 
         menuAeronave.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 14)); // NOI18N
-        menuAeronave.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgs/Icons-menuPrincipal/Icons-BarraCadastro/icons8-avião-25.png"))); // NOI18N
+        menuAeronave.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgs/Icons-menuPrincipal/Icons-BarraCadastro/iconAeronave.png"))); // NOI18N
         menuAeronave.setText("Aeronave");
         menuAeronave.setBorder(null);
         menuAeronave.addActionListener(new java.awt.event.ActionListener() {
@@ -151,7 +151,7 @@ public class FormPrincipal extends javax.swing.JFrame {
         menuCadastro.add(menuAeronave);
 
         menuPiloto.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 14)); // NOI18N
-        menuPiloto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgs/Icons-menuPrincipal/Icons-BarraCadastro/icons8-chapéu-de-piloto-25.png"))); // NOI18N
+        menuPiloto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgs/Icons-menuPrincipal/Icons-BarraCadastro/iconPiloto.png"))); // NOI18N
         menuPiloto.setText("Piloto");
         menuPiloto.setBorder(null);
         menuPiloto.addActionListener(new java.awt.event.ActionListener() {
@@ -162,7 +162,7 @@ public class FormPrincipal extends javax.swing.JFrame {
         menuCadastro.add(menuPiloto);
 
         menuPassageiro.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 14)); // NOI18N
-        menuPassageiro.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgs/Icons-menuPrincipal/Icons-BarraCadastro/icons8-passageiro-25.png"))); // NOI18N
+        menuPassageiro.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgs/Icons-menuPrincipal/Icons-BarraCadastro/iconPassageiro.png"))); // NOI18N
         menuPassageiro.setText("Passageiro");
         menuPassageiro.setBorder(null);
         menuPassageiro.addActionListener(new java.awt.event.ActionListener() {
@@ -172,6 +172,8 @@ public class FormPrincipal extends javax.swing.JFrame {
         });
         menuCadastro.add(menuPassageiro);
 
+        menuVoo.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 14)); // NOI18N
+        menuVoo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgs/Icons-menuPrincipal/Icons-BarraCadastro/iconVoo.png"))); // NOI18N
         menuVoo.setText("Voo");
         menuVoo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -181,7 +183,7 @@ public class FormPrincipal extends javax.swing.JFrame {
         menuCadastro.add(menuVoo);
 
         menuPassagem.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 14)); // NOI18N
-        menuPassagem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgs/Icons-menuPrincipal/Icons-BarraCadastro/icons8-cartão-de-embarque-25.png"))); // NOI18N
+        menuPassagem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgs/Icons-menuPrincipal/Icons-BarraCadastro/iconPassagem.png"))); // NOI18N
         menuPassagem.setText("Passagem");
         menuPassagem.setBorder(null);
         menuPassagem.addActionListener(new java.awt.event.ActionListener() {
@@ -193,14 +195,25 @@ public class FormPrincipal extends javax.swing.JFrame {
 
         barraMenu.add(menuCadastro);
 
+        jMenuEspacamento3.setText("   ");
+        jMenuEspacamento3.setEnabled(false);
+        barraMenu.add(jMenuEspacamento3);
+
+        menuVenda.setBackground(new java.awt.Color(4, 52, 68));
+        menuVenda.setBorder(null);
+        menuVenda.setForeground(new java.awt.Color(188, 148, 132));
+        menuVenda.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgs/Icons-menuPrincipal/IconsBarraMenu/iconComprar.png"))); // NOI18N
         menuVenda.setText("Venda");
+        menuVenda.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 18)); // NOI18N
         menuVenda.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 menuVendaActionPerformed(evt);
             }
         });
 
-        menuTesteVenda.setText("jMenuItem1");
+        menuTesteVenda.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 14)); // NOI18N
+        menuTesteVenda.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgs/Icons-menuPrincipal/iconBarraVenda/icons8-caixa-registradora-25.png"))); // NOI18N
+        menuTesteVenda.setText("Vendas");
         menuTesteVenda.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 menuTesteVendaActionPerformed(evt);
@@ -210,17 +223,21 @@ public class FormPrincipal extends javax.swing.JFrame {
 
         barraMenu.add(menuVenda);
 
+        jMenuEspacamento2.setText("   ");
+        jMenuEspacamento2.setEnabled(false);
+        barraMenu.add(jMenuEspacamento2);
+
         menuAjuda.setBackground(new java.awt.Color(4, 52, 68));
         menuAjuda.setBorder(null);
         menuAjuda.setForeground(new java.awt.Color(188, 148, 132));
-        menuAjuda.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgs/Icons-menuPrincipal/IconsBarraMenu/icons8-ajuda-30 (1).png"))); // NOI18N
+        menuAjuda.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgs/Icons-menuPrincipal/IconsBarraMenu/iconAjuda.png"))); // NOI18N
         menuAjuda.setText("Ajuda");
         menuAjuda.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 18)); // NOI18N
         menuAjuda.setIconTextGap(5);
         menuAjuda.setMargin(new java.awt.Insets(0, 0, 0, 100));
 
         menuSobre.setFont(new java.awt.Font("Microsoft YaHei UI", 0, 14)); // NOI18N
-        menuSobre.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgs/Icons-menuPrincipal/Icons-BarraAjuda/icons8-informação-25.png"))); // NOI18N
+        menuSobre.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgs/Icons-menuPrincipal/Icons-BarraAjuda/iconInformação.png"))); // NOI18N
         menuSobre.setText("Sobre");
         menuSobre.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -230,6 +247,30 @@ public class FormPrincipal extends javax.swing.JFrame {
         menuAjuda.add(menuSobre);
 
         barraMenu.add(menuAjuda);
+
+        jMenuEspacamento.setText("                                                                                         ");
+        jMenuEspacamento.setEnabled(false);
+        barraMenu.add(jMenuEspacamento);
+
+        jMenuMinimizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgs/Icons-menuPrincipal/IconsBarraMenu/iconMinimizar.png"))); // NOI18N
+        jMenuMinimizar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenuMinimizarMouseClicked(evt);
+            }
+        });
+        barraMenu.add(jMenuMinimizar);
+
+        jMenuEspacamento1.setText("     ");
+        jMenuEspacamento1.setEnabled(false);
+        barraMenu.add(jMenuEspacamento1);
+
+        jMenuFechar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgs/Icons-menuPrincipal/IconsBarraMenu/iconExcluir.png"))); // NOI18N
+        jMenuFechar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenuFecharMouseClicked(evt);
+            }
+        });
+        barraMenu.add(jMenuFechar);
 
         setJMenuBar(barraMenu);
 
@@ -333,6 +374,16 @@ public class FormPrincipal extends javax.swing.JFrame {
         form.setVisible(true); //mostra o form
     }//GEN-LAST:event_menuTesteVendaActionPerformed
 
+    private void jMenuFecharMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuFecharMouseClicked
+        // TODO add your handling code here:
+        dispose();
+    }//GEN-LAST:event_jMenuFecharMouseClicked
+
+    private void jMenuMinimizarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuMinimizarMouseClicked
+        // TODO add your handling code here:
+        setState(Frame.ICONIFIED);
+    }//GEN-LAST:event_jMenuMinimizarMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -375,6 +426,12 @@ public class FormPrincipal extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuBar barraMenu;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JMenu jMenuEspacamento;
+    private javax.swing.JMenu jMenuEspacamento1;
+    private javax.swing.JMenu jMenuEspacamento2;
+    private javax.swing.JMenu jMenuEspacamento3;
+    private javax.swing.JMenu jMenuFechar;
+    private javax.swing.JMenu jMenuMinimizar;
     private javax.swing.JMenuItem menuAeronave;
     private javax.swing.JMenuItem menuAeroporto;
     private javax.swing.JMenu menuAjuda;

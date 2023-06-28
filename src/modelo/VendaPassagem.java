@@ -59,8 +59,9 @@ public class VendaPassagem implements Serializable{
 
     @Override
     public String toString() {
-        return "Passageiro: " + venda.getPassageiro().getNome() + " | Destino: " + passagem.getVoo().getDestino();
-        //return "VendaPassagem{" + "codVendaPassagem=" + codVendaPassagem + ", venda=" + venda + ", passagem=" + passagem + '}';
+        //return "Passageiro: " + venda.getPassageiro().getNome() + " | Destino: " + passagem.getVoo().getDestino();
+        return passagem + " | Valor: R$" + passagem.getValorPassagem() + " | Peso Máximo: " + passagem.getPesoBagagem() + "kg";
+    
     }
     
 }
