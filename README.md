@@ -35,6 +35,11 @@
   </ul>
  
 </body>
+<div align="center">
+  <figure>
+    <img src= "https://github.com/leopaivap/CompanhiaAereaCRUD/assets/71511623/6f668a9b-a64d-45d5-be4b-98aa81b8ed73">
+  </figure>
+<div/>
 </html>
 
-![imgProjeCompanhiaAerea](https://github.com/leopaivap/CompanhiaAereaCRUD/assets/71511623/6f668a9b-a64d-45d5-be4b-98aa81b8ed73)
+
